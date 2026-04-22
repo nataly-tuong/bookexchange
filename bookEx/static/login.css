@@ -13,44 +13,72 @@
     border-radius: 15px;
     padding: 30px 60px;
     background-color: white;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35);
 }
 
 .loginContainer h1 {
-    margin-bottom: 20px;
+    margin-bottom: 4px;
     text-align: center;
+    font-size: 1.5rem;
+}
+
+.loginContainer h1::after {
+    content: 'Welcome to our community!';
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #888;
+    margin-top: 4px;
+    margin-bottom: 20px;
 }
 
 .loginTable {
     width: 100%;
 }
 
-.loginTable th,
-.loginTable td {
+.loginTable th, .loginTable td {
     padding: 8px 0;
     text-align: left;
 }
 
 .loginBtn {
-    background-color: var(--main-accent);
+    background-color: #1a1635;
     color: white;
     border: none;
     border-radius: 25px;
-    padding: 10px 16px;
+    padding: 14px 16px;
     cursor: pointer;
-    width: 60%;
+    width: 100%;
     display: block;
     text-align: center;
-    margin: 20px auto;
-    margin-top: -3px;
+    margin: 20px auto 0;
+    font-size: 1rem;
+    font-weight: 600;
 }
 
 .loginBtn:hover {
     opacity: 0.85;
 }
 
+.orDivider {
+    display: flex;
+    align-items: center;
+    color: #ccc;
+    font-size: 0.85rem;
+    margin: 16px 0 10px;
+    gap: 10px;
+}
+
+.orDivider::before,
+.orDivider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e8e8e8;
+}
+
 .registerText {
     margin-top: 8px;
-
     text-align: center;
 }
 
@@ -58,6 +86,7 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 18px;
+    position: relative;
 }
 
 .formGroup label {
@@ -67,9 +96,23 @@
 
 .formGroup input {
     width: 100%;
-    padding: 12px;
+    padding: 12px 12px 12px 40px;
     border-radius: 15px;
     border: 1px solid #dcdcdc;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
+}
+
+.formGroup input:focus {
+    outline: none;
+    border-color: #6c5ce7;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.12);
+}
+
+.formGroup .inputIcon {
+    position: absolute;
+    left: 13px;
+    bottom: 13px;
+    color: #aaa;
+    pointer-events: none;
 }

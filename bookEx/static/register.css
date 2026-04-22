@@ -7,17 +7,29 @@
 }
 
 .registerContainer {
-    width: 70%;
-    max-width: 850px;
+    width: 50%;
+    max-width: 500px;
     border: 1px solid #dcdcdc;
     border-radius: 15px;
-    padding: 30px 40px;
+    padding: 30px 60px;
     background-color: white;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35);
 }
 
 .registerContainer h1 {
-    margin-bottom: 24px;
+    margin-bottom: 4px;
     text-align: center;
+    font-size: 1.5rem;
+}
+
+.registerContainer h1::after {
+    content: 'Create your account to get started';
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #888;
+    margin-top: 4px;
+    margin-bottom: 20px;
 }
 
 .registerTable {
@@ -25,8 +37,7 @@
     border-spacing: 0 10px;
 }
 
-.registerTable th,
-.registerTable td {
+.registerTable th, .registerTable td {
     padding: 8px 10px;
     text-align: left;
     vertical-align: top;
@@ -48,6 +59,87 @@
 .helpText {
     font-size: 13px;
     color: #666;
+    margin-top: 6px;
+    padding-left: 2px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+    position: relative;
+}
+
+.formGroup label {
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.formGroup input {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    border-radius: 15px;
+    border: 1px solid #dcdcdc;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.formGroup input:focus {
+    outline: none;
+    border-color: #6c5ce7;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.12);
+}
+
+.inputWrapper {
+    position: relative;
+}
+
+.inputWrapper .inputIcon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    pointer-events: none;
+}
+
+.loginBtn {
+    background-color: #1a1635;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 14px 16px;
+    cursor: pointer;
+    width: 100%;
+    display: block;
+    text-align: center;
+    margin: 20px auto 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.loginBtn:hover {
+    opacity: 0.85;
+}
+
+.orDivider {
+    display: flex;
+    align-items: center;
+    color: #ccc;
+    font-size: 0.85rem;
+    margin: 16px 0 10px;
+    gap: 10px;
+}
+
+.orDivider::before,
+.orDivider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e8e8e8;
+}
+
+.registerText {
     margin-top: 8px;
-    padding-left: 18px;
+    text-align: center;
 }

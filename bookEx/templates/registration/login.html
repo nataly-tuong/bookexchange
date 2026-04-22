@@ -17,12 +17,19 @@
         <form action="{% url 'login' %}" method="post">
           <table class="loginTable">
 
-              <div class="formGroup">
+               <div class="formGroup">
                   <label for="id_username">Username</label>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle inputIcon" viewBox="0 0 16 16">
+                      <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                      <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                  </svg>
                   {{ form.username }}
               </div>
               <div class="formGroup">
                   <label for="id_password">Password</label>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill inputIcon" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M8 0a4 4 0 0 1 4 4v2.05a2.5 2.5 0 0 1 2 2.45v5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5v-5a2.5 2.5 0 0 1 2-2.45V4a4 4 0 0 1 4-4m0 1a3 3 0 0 0-3 3v2h6V4a3 3 0 0 0-3-3"/>
+                  </svg>
                   {{ form.password }}
               </div>
               <tr>
@@ -32,12 +39,15 @@
               </tr>
           </table>
 
-            <p class="registerText">
+          <div class="orDivider">or</div>
+
+             <p class="registerText">
                 Don't have an account? <a href="/register">Sign Up</a>
             </p>
 
-          <input type="hidden" name="next" value="{{ next }}" />
+           <input type="hidden" name="next" value="{{ next }}" />
           {% csrf_token %}
+
          </form>
     </div>
 </div>
