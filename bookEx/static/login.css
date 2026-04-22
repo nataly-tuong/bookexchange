@@ -1,0 +1,75 @@
+.loginPageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    padding: 30px;
+}
+
+.loginContainer {
+    width: 50%;
+    max-width: 500px;
+    border: 1px solid #dcdcdc;
+    border-radius: 15px;
+    padding: 30px 60px;
+    background-color: white;
+}
+
+.loginContainer h1 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.loginTable {
+    width: 100%;
+}
+
+.loginTable th,
+.loginTable td {
+    padding: 8px 0;
+    text-align: left;
+}
+
+.loginBtn {
+    background-color: var(--main-accent);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 16px;
+    cursor: pointer;
+    width: 60%;
+    display: block;
+    text-align: center;
+    margin: 20px auto;
+    margin-top: -3px;
+}
+
+.loginBtn:hover {
+    opacity: 0.85;
+}
+
+.registerText {
+    margin-top: 8px;
+
+    text-align: center;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.formGroup label {
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.formGroup input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 15px;
+    border: 1px solid #dcdcdc;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
