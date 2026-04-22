@@ -9,19 +9,43 @@
 
 {% block content %}
 <div class="registerPageContainer">
+    <div class="registerContainer">
+        <h1>User Registration</h1>
 
+        <form action="" method="post">
+
+            <div class="formGroup">
+                <label>Username</label>
+                {{ form.username }}
+                <div class="helpText">{{ form.username.help_text }}</div>
+                {{ form.username.errors }}
+            </div>
+
+             <div class="formGroup">
+                <label>Password</label>
+                {{ form.password1 }}
+                 <div class="helpText">{{ form.password1.help_text }}</div>
+
+                {{ form.password1.errors }}
+            </div>
+
+            <div class="formGroup">
+                <label>Confirm Password</label>
+                {{ form.password2 }}
+                <div class="helpText">{{ form.password2.help_text }}</div>
+
+                {{ form.password2.errors }}
+            </div>
+
+            <input class="loginBtn" type="submit" value="Create Account">
+
+            <p class="registerText">
+                Already have an account? <a href="/login">Login</a>
+            </p>
+
+          <input type="hidden" name="next" value="{{ next }}" />
+          {% csrf_token %}
+         </form>
+    </div>
 </div>
-  <h1>User Registration</h1>
-    <form action="" method="post">
-      <table>
-         {{ form.as_table }}
-          <tr>
-             <td>
-                 <input type="submit" value="Submit">
-             </td>
-          </tr>
-      </table>
-      <input type="hidden" name="next" value="{{ next }}" />
-      {% csrf_token %}
-     </form>
 {% endblock content %}
