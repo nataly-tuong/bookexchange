@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block body_class %}backgroundPage{% endblock %}
+
 {% block sidenav %}
       <li>
         <a href="/">  Home </a>
@@ -14,28 +16,38 @@
 
         <form action="" method="post">
 
-            <div class="formGroup">
-                <label>Username</label>
-                {{ form.username }}
-                <div class="helpText">{{ form.username.help_text }}</div>
-                {{ form.username.errors }}
-            </div>
+           <div class="formGroup">
+    <label>Username</label>
+    {{ form.username }}
 
-             <div class="formGroup">
-                <label>Password</label>
-                {{ form.password1 }}
-                 <div class="helpText">{{ form.password1.help_text }}</div>
+    {% if form.username.errors %}
+        <div class="helpText">{{ form.username.errors.0 }}</div>
+    {% else %}
+        <div class="helpText">{{ form.username.help_text }}</div>
+    {% endif %}
+</div>
 
-                {{ form.password1.errors }}
-            </div>
+<div class="formGroup">
+    <label>Password</label>
+    {{ form.password1 }}
 
-            <div class="formGroup">
-                <label>Confirm Password</label>
-                {{ form.password2 }}
-                <div class="helpText">{{ form.password2.help_text }}</div>
+    {% if form.password1.errors %}
+        <div class="helpText">{{ form.password1.errors.0 }}</div>
+    {% else %}
+        <div class="helpText">{{ form.password1.help_text }}</div>
+    {% endif %}
+</div>
 
-                {{ form.password2.errors }}
-            </div>
+<div class="formGroup">
+    <label>Confirm Password</label>
+    {{ form.password2 }}
+
+    {% if form.password2.errors %}
+        <div class="helpText">{{ form.password2.errors.0 }}</div>
+    {% else %}
+        <div class="helpText">{{ form.password2.help_text }}</div>
+    {% endif %}
+</div>
 
             <input class="loginBtn" type="submit" value="Create Account">
 

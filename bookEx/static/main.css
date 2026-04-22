@@ -15,6 +15,13 @@ body {
     flex-direction: column;
 }
 
+.backgroundPage {
+    background-image: url('images/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .banner {
     background-color: var(--main-accent);
     color: white;
@@ -101,7 +108,6 @@ body {
 .content {
     flex: 1;
     padding: 20px;
-    background-color: white;
 }
 
 .footer {
@@ -109,4 +115,13 @@ body {
     color: white;
     text-align: center;
     padding: 10px;
+}
+
+.Colitez {
+    font-family: 'Colitez', serif;
+    letter-spacing: 0.5px;
+}
+
+.Moniline {
+    font-family: 'Moniline', serif;
 }
