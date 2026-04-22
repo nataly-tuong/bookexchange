@@ -101,6 +101,12 @@
     cursor: pointer;
 }
 
+.textareaContainer textarea:focus {
+    outline: none;
+    border-color: #6c5ce7;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.12);
+}
+
 .textareaContainer input:hover {
     opacity: 0.85;
 }

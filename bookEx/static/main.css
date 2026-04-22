@@ -82,9 +82,10 @@ body {
 }
 
 .sidebar {
-    width: 200px;
-    background-color: #ecf0f1;
-    padding: 20px;
+    width: 220px;
+    background-color: #f4f4f8;
+    padding: 20px 16px;
+    border-right: 1px solid #e8e8f0;
 }
 
 .sidebar ul {
@@ -92,18 +93,67 @@ body {
 }
 
 .sidebar li {
-    margin-bottom: 15px;
+    margin-bottom: 0;
+}
+
+.sidebar li + li {
+    border-top: 1px solid #e4e4ee;
 }
 
 .sidebar a {
     text-decoration: none;
-    color: var(--main-accent);
-    font-weight: bold;
+    color: #1a1635;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 10px;
+    border-radius: 12px;
+    border-left: 3px solid transparent;
 }
 
 .sidebar a:hover {
-    text-decoration: underline;
+    background-color: #ede9ff;
+    color: #6c5ce7;
+    text-decoration: none;
 }
+
+.sidebar a.active {
+    background-color: #ede9ff;
+    color: #6c5ce7;
+    border-left: 3px solid #6c5ce7;
+}
+
+.sidebar a::before {
+    content: '';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 42px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    font-family: "bootstrap-icons";
+    font-size: 1.2rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    color: #1a1635;
+}
+
+.sidebar a:hover::before,
+.sidebar a.active::before {
+    background-color: #ddd6ff;
+    color: #6c5ce7;
+}
+
+/* Match each link by its href */
+.sidebar a[href="/"]::before              { content: "\F425"; } /* house - Home */
+.sidebar a[href="/postbook"]::before      { content: "\F442"; } /* journal-plus - Post Book */
+.sidebar a[href="/displaybooks"]::before  { content: "\F194"; } /* book - Display Books */
+.sidebar a[href="/searchbooks"]::before   { content: "\F52A"; } /* search - Search Books */
+.sidebar a[href="/mybooks"]::before       { content: "\F447"; } /* columns-gap - My Books */
+.sidebar a[href="/inbox"]::before        { content: "\F32F"; } /* tray - Inbox */
+.sidebar a[href="/aboutus"]::before         { content: "\F4D0"; } /* people - About US */
 
 .content {
     flex: 1;
@@ -115,13 +165,4 @@ body {
     color: white;
     text-align: center;
     padding: 10px;
-}
-
-.Colitez {
-    font-family: 'Colitez', serif;
-    letter-spacing: 0.5px;
-}
-
-.Moniline {
-    font-family: 'Moniline', serif;
 }
