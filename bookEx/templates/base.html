@@ -1,0 +1,68 @@
+{%  load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Layout</title>
+    <link href="{%  static 'main.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'table_format.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'comments.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'book_detail.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'message_box.css' %}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+    <!-- Top Banner -->
+    <header class="banner">
+    <div class="bannerInner">
+        <h1>Book Exchange</h1>
+        <div class="bannerRight">
+            {% if user.is_authenticated %}
+                <span>{{ user.username }}</span>
+                <form action="{% url 'logout' %}?next=/" method="post">
+                    <button type="submit">Logout</button>
+                    {% csrf_token %}
+                </form>
+            {% else %}
+                <span>Not logged in</span>
+                <a href="{% url 'login' %}?next=/">Login</a>
+            {% endif %}
+        </div>
+    </div>
+</header>
+
+    <!-- Main Layout -->
+    <div class="container">
+
+        <!-- Left Menu -->
+        <nav class="sidebar">
+            <ul>
+               {% for item in item_list %}
+
+                   {% if user.is_authenticated or item.item != 'My Books' and item.item != 'Inbox' %}
+                      <li>
+                          <a href="{{ item.link }}">  {{ item.item }} </a>
+                      </li>
+                   {% endif %}
+
+               {% endfor %}
+            </ul>
+        </nav>
+
+        <!-- Right Main Content -->
+        <main class="content">
+            {% block content %}
+               <h1>This is Base Main Content</h1>
+            {% endblock content %}
+        </main>
+
+    </div>
+
+    <!-- Bottom Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 Book Exchange. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

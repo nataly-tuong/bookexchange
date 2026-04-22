@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block sidenav %}
+   {% for item in item_list %}
+      <li>
+        <a href="{{ item.link }}">  {{ item.item }} </a>
+      </li>
+   {% endfor %}
+{% endblock sidenav %}
+
+{% block content %}
+   <h2>Search Books</h2>
+    <form method="get">
+        <label for="search">Search:</label>
+        <input type="search" id="search" name="q" value="{{request.GET.q}}">
+        <button type="submit">Search</button>
+        <br/>
+        <label for="filter">Search For:</label>
+        <select id="filter" name="filter">
+            <option value="any" {% if request.GET.filter == "any" %} selected {% endif %} >Any</option>
+            <option value="title" {% if request.GET.filter == "title" %} selected {% endif %} >Book Title</option>
+            <option value="user" {% if request.GET.filter == "user" %} selected {% endif %} >User</option>
+        </select>
+    </form>
+{% if books%}
+    <table border="2">
+        <thead>
+            <tr>
+                <th>Book Name</th>
+                <th>Book Price</th>
+                <th>User Name</th>
+            </tr>
+        </thead>
+        <tbody>
+               {% for book in books %}
+               <tr>
+                   <td>
+                       <a href="book_detail/{{ book.id }}">  {{ book.name }} </a>
+                   </td>
+                   <td>
+                       {{ book.price }}
+                   </td>
+                   <td>
+                       {{ book.username }}
+                   </td>
+               </tr>
+               {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No books found.</p>
+    {% endif %}
+{% endblock content %}

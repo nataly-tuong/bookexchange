@@ -1,0 +1,106 @@
+.commentContainer {
+    margin: 24px 0;
+    border: 1px solid #efefef;
+    border-radius: 15px;
+    padding: 24px;
+    background-color: white;
+}
+
+.commentContainer h2 {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.commentContainer textarea {
+    border-radius: 5px;
+    padding: 15px;
+    width: 100%;
+    resize: none;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background: #efefef;
+    border: 1px solid #dcdcdc;
+    font-family: Arial, sans-serif;
+}
+
+.commentDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 3px;
+}
+
+.comment {
+    border: 1px solid #dcdcdc;
+    border-radius: 12px;
+    padding: 15px;
+    background-color: #f9f9f9;
+}
+
+.commentTopRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.nameAndDateContainer {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.username {
+    font-weight: bold;
+    word-break: break-word;
+}
+
+.commentDate {
+    font-size: 10px;
+    color: gray;
+}
+
+.commentActions {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.actionBtn {
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.actionBtn:hover {
+    opacity: 0.7;
+}
+
+.commentText {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    margin-top: 12px;
+    line-height: 1.5;
+}
+
+.textareaContainer {
+    position: relative;
+}
+
+.textareaContainer input {
+    position: absolute;
+    right: 10px;
+    bottom: 23px;
+    background-color: var(--main-accent);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.textareaContainer input:hover {
+    opacity: 0.85;
+}

@@ -1,0 +1,134 @@
+.booksGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.bookCard {
+    text-decoration: none;
+    color: inherit;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    background-color: white;
+    transition: background-color 0.2s;
+}
+
+.bookCard:hover {
+    background-color: #f5f5f5;
+}
+
+.bookCard:hover .bookCardImage img {
+    transform: scale(1.05);
+}
+
+.bookCardImage {
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 180px;
+    overflow: hidden;
+}
+
+.bookCardImage img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.bookCardInfo {
+    padding: 14px 16px;
+}
+
+.bookCardTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6px;
+}
+
+.bookCardName {
+    font-weight: bold;
+    font-size: 15px;
+    color: black;
+}
+
+.bookCardPriceBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.bookCardFrom {
+    font-size: 11px;
+    color: #999;
+}
+
+.bookCardPrice {
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+}
+
+.bookCardUsername {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.bookCardDate {
+    font-size: 12px;
+    color: #aaa;
+}
+
+.postBookContainer {
+    margin-top: 24px;
+    border: 1px solid lightgray;
+    border-radius: 15px;
+    padding: 32px;
+    max-width: 500px;
+}
+
+.postBookField {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.postBookField label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.postBookField input {
+    padding: 10px 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+}
+
+.postBookField input:focus {
+    outline: none;
+    border-color: #aaa;
+}
+
+.postBookContainer input[type="submit"] {
+    background-color: var(--main-accent);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 24px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.postBookContainer input[type="submit"]:hover {
+    opacity: 0.85;
+}
