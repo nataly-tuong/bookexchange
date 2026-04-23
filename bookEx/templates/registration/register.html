@@ -67,7 +67,7 @@
             <div class="orDivider">or</div>
 
             <p class="registerText">
-                Already have an account? <a href="/login">Login</a>
+                Already have an account? <a href="{% url 'login' %}?next=/">Login</a>
             </p>
 
             <input type="hidden" name="next" value="{{ next }}" />
