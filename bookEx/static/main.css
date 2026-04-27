@@ -168,6 +168,7 @@ body {
 .sidebar a[href="/mybooks"]::before       { content: "\F447"; } /* columns-gap - My Books */
 .sidebar a[href="/inbox"]::before        { content: "\F32F"; } /* tray - Inbox */
 .sidebar a[href="/aboutus"]::before         { content: "\F4D0"; } /* people - About US */
+.sidebar a[href="/favorites"]::before { content: "\F415"; } /* heart */
 
 .content {
     flex: 1;
@@ -192,3 +193,4 @@ body {
 .headingLink:focus {
     text-decoration: underline;
 }
+

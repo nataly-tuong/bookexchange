@@ -4,20 +4,20 @@
 {% block sidenav %}
    {% for item in item_list %}
       <li>
-        <a href="{{ item.link }}">{{ item.item }}</a>
+        <a href="{{ item.link }}">  {{ item.item }} </a>
       </li>
    {% endfor %}
 {% endblock sidenav %}
 
 {% block content %}
-
-<h1>Display Books</h1>
-
 <div class="booksGrid">
     {% for book in books %}
     <a href="book_detail/{{ book.id }}" class="bookCard">
         <div class="bookCardImage">
             <img src="{% static book.pic_path %}" />
+            {% if user.is_authenticated and book.id in favorited_ids %}
+                <span class="cardHeartIcon"><i class="bi bi-heart-fill"></i></span>
+            {% endif %}
         </div>
         <div class="bookCardInfo">
             <div class="bookCardTop">
@@ -33,5 +33,4 @@
     </a>
     {% endfor %}
 </div>
-
 {% endblock content %}

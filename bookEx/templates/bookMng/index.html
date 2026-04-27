@@ -114,6 +114,9 @@
                 <a href="/book_detail/{{ book.id }}" class="homeRecommendCard homeRecommendCardLink">
                     <div class="homeRecommendThumb">
                         <img src="{% static book.pic_path %}" alt="{{ book.name }}"/>
+                        {% if user.is_authenticated and book.id in favorited_ids %}
+                            <span class="cardHeartIcon"><i class="bi bi-heart-fill"></i></span>
+                        {% endif %}
                     </div>
                     <div class="homeRecommendBadge">${{ book.price }}</div>
                     <h4>{{ book.name }}</h4>

@@ -10,20 +10,48 @@
 {% endblock sidenav %}
 
 {% block content %}
-  <h1>Post Book</h1>
-  {% if submitted %}
-      <h1> Post Book Successfully! </h1>
-  {% else %}
-    <form action="" enctype="multipart/form-data" method="post" novalidate>
-      <table>
-         {{ form.as_table }}
-          <tr>
-             <td>
-                 <input type="submit" value="Submit">
-             </td>
-          </tr>
-      </table>
-      {% csrf_token %}
-     </form>
-  {% endif %}
+<div class="postBookPageContainer">
+    <div class="postBookContainer">
+        <h1>Post a Book</h1>
+
+        {% if submitted %}
+            <div class="postBookSuccess">
+                <i class="bi bi-check-circle-fill"></i>
+                <p>Your book was posted successfully!</p>
+                <a href="/displaybooks" class="loginBtn">Browse Books</a>
+                <a href="/postbook" class="loginBtn postBookAnotherBtn">Post Another</a>
+            </div>
+        {% else %}
+            <form action="" enctype="multipart/form-data" method="post" novalidate>
+                {% csrf_token %}
+
+                {% for field in form %}
+                <div class="formGroup">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    <div class="inputWrapper">
+                        {% if field.name == 'name' %}
+                            <i class="bi bi-journal-text inputIcon"></i>
+                        {% elif field.name == 'web' %}
+                            <i class="bi bi-link-45deg inputIcon"></i>
+                        {% elif field.name == 'price' %}
+                            <i class="bi bi-tag inputIcon"></i>
+                        {% elif field.name == 'picture' %}
+                            <i class="bi bi-image inputIcon"></i>
+                        {% endif %}
+                        {{ field }}
+                    </div>
+                    {% if field.errors %}
+                        <div class="helpText">{{ field.errors.0 }}</div>
+                    {% endif %}
+                    {% if field.help_text %}
+                        <div class="helpText">{{ field.help_text }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <input class="loginBtn" type="submit" value="Post Book">
+            </form>
+        {% endif %}
+    </div>
+</div>
 {% endblock content %}

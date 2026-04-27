@@ -21,7 +21,9 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.core.paginator import Paginator
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from .models import Book, Comment, MainMenu, MessageThread, PrivateMessage, Favorite
 
 from django.db.models import Q
 
@@ -49,11 +51,19 @@ def index(request):
 '''
 
 def index(request):
-    return render(request,
-                  'bookMng/index.html',
-                  {
-                      'item_list': MainMenu.objects.all()
-                  })
+    recent_books = Book.objects.order_by('-publishdate')[:3]
+    for b in recent_books:
+        b.pic_path = b.picture.url[14:]
+
+    favorited_ids = set()
+    if request.user.is_authenticated:
+        favorited_ids = set(Favorite.objects.filter(user=request.user).values_list('book_id', flat=True))
+
+    return render(request, 'bookMng/index.html', {
+        'item_list': MainMenu.objects.all(),
+        'recent_books': recent_books,
+        'favorited_ids': favorited_ids,
+    })
 
 def postbook(request):
     submitted = False
@@ -85,30 +95,33 @@ def displaybooks(request):
     for b in books:
         b.pic_path = b.picture.url[14:]
 
-    return render(request,
-                  'bookMng/displaybooks.html',
-                  {
-                      'item_list': MainMenu.objects.all(),
-                      'books': books
-                  })
+    favorited_ids = set()
+    if request.user.is_authenticated:
+        favorited_ids = set(Favorite.objects.filter(user=request.user).values_list('book_id', flat=True))
+
+    return render(request, 'bookMng/displaybooks.html', {
+        'item_list': MainMenu.objects.all(),
+        'books': books,
+        'favorited_ids': favorited_ids,
+    })
 
 def book_detail(request, book_id):
     book = Book.objects.get(id=book_id)
-
-
     book.pic_path = book.picture.url[14:]
-    # comment addition
     comments = Comment.objects.filter(book=book)
     form = CommentForm()
 
-    return render(request,
-                  'bookMng/book_detail.html',
-                  {
-                      'item_list': MainMenu.objects.all(),
-                      'book': book,
-                      'comments': comments,
-                      'form': form
-                  })
+    is_favorited = False
+    if request.user.is_authenticated:
+        is_favorited = Favorite.objects.filter(user=request.user, book=book).exists()
+
+    return render(request, 'bookMng/book_detail.html', {
+        'item_list': MainMenu.objects.all(),
+        'book': book,
+        'comments': comments,
+        'form': form,
+        'is_favorited': is_favorited,
+    })
 
 def aboutus(request):
     return render(request,
@@ -178,6 +191,10 @@ def searchbooks(request):
     for b in books:
         b.pic_path = b.picture.url[14:]
 
+    favorited_ids = set()
+    if request.user.is_authenticated:
+        favorited_ids = set(Favorite.objects.filter(user=request.user).values_list('book_id', flat=True))
+
     return render(request, 'bookMng/searchbooks.html', {
         'item_list': MainMenu.objects.all(),
         'books': books,
@@ -186,6 +203,7 @@ def searchbooks(request):
         'price_filter': price_filter,
         'page': page,
         'total_pages': total_pages,
+        'favorited_ids': favorited_ids
     })
 
 
@@ -382,6 +400,36 @@ def comment_delete(request, comment_id):
 
     return redirect('book_detail', book_id=book.id)
 
+@login_required
+@require_POST
+def toggle_favorite(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    favorite, created = Favorite.objects.get_or_create(user=request.user, book=book)
+    if not created:
+        favorite.delete()
+        is_favorited = False
+    else:
+        is_favorited = True
+    return JsonResponse({'is_favorited': is_favorited})
+
+
+@login_required
+def favorites(request):
+    favorite_books = Book.objects.filter(favorited_by__user=request.user).order_by('-favorited_by__created_at')
+    for b in favorite_books:
+        b.pic_path = b.picture.url[14:]
+
+    recent_books = []
+    if not favorite_books:
+        recent_books = Book.objects.order_by('-publishdate')[:2]
+        for b in recent_books:
+            b.pic_path = b.picture.url[14:]
+
+    return render(request, 'bookMng/favorites.html', {
+        'item_list': MainMenu.objects.all(),
+        'favorite_books': favorite_books,
+        'recent_books': recent_books,
+    })
 
 class Register(CreateView):
     template_name = 'registration/register.html'

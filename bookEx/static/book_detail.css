@@ -37,6 +37,7 @@
     flex-direction: column;
     min-width: 260px;
     box-sizing: border-box;
+    position: relative;
 }
 
 .bookMiniText {

@@ -12,4 +12,6 @@ urlpatterns = [
     path("compose/", views.compose_message, name="compose_message"),
     path("thread/<int:thread_id>/", views.thread_detail, name="thread_detail"),
     path("thread/<int:thread_id>/mark-read/", views.mark_thread_read, name="mark_thread_read"),
+    path('toggle_favorite/<int:book_id>', views.toggle_favorite, name='toggle_favorite'),
+    path('favorites', views.favorites, name='favorites'),
 ]

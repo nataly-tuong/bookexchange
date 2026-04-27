@@ -18,6 +18,16 @@
     </div>
 
     <div class="bookRightBox">
+        {% if user.is_authenticated %}
+        <button
+            class="favoriteBtn {% if is_favorited %}favorited{% endif %}"
+            data-book-id="{{ book.id }}"
+            title="{% if is_favorited %}Unfavorite{% else %}Favorite{% endif %}"
+        >
+            <i class="bi {% if is_favorited %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
+        </button>
+        {% endif %}
+
         <p class="bookMiniText">Book Detail</p>
 
         <h1 class="bookBigName">{{ book.name }}</h1>
@@ -101,6 +111,42 @@ function startEdit(id, text) {
     document.getElementById("comment_text").value = text;
     document.getElementById("comment_text").focus();
 }
+</script>
+
+<script>
+document.querySelectorAll('.favoriteBtn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const bookId = this.dataset.bookId;
+        const icon = this.querySelector('i');
+
+        this.classList.add('favoritePop');
+        this.addEventListener('animationend', () => {
+            this.classList.remove('favoritePop');
+        }, { once: true });
+
+        fetch(`/toggle_favorite/${bookId}`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.is_favorited) {
+                icon.classList.remove('bi-heart');
+                icon.classList.add('bi-heart-fill');
+                btn.classList.add('favorited');
+                btn.title = 'Unfavorite';
+            } else {
+                icon.classList.remove('bi-heart-fill');
+                icon.classList.add('bi-heart');
+                btn.classList.remove('favorited');
+                btn.title = 'Favorite';
+            }
+        });
+    });
+});
 </script>
 
 {% endblock content %}

@@ -1,0 +1,191 @@
+/* ── Favorites Page ─────────────────────────────────────── */
+
+.favoritesPageContainer {
+    padding: 32px 32px 40px;
+}
+
+.favEmptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.favEmptyState > .bi-heart {
+    font-size: 3rem;
+    color: #e0b0c0;
+    margin-bottom: 16px;
+}
+
+.favEmptyTitle {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #221a45;
+    margin-bottom: 6px;
+}
+
+.favEmptySub {
+    font-size: 0.92rem;
+    color: #888;
+    margin-bottom: 28px;
+}
+
+.favEmptyGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(180px, 260px));
+    gap: 16px;
+    justify-content: center;
+}
+
+.favBrowseCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 200px;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ── Heart overlay on book cards ────────────────────────── */
+
+.bookCardImage {
+    position: relative;
+}
+
+.cardHeartIcon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e0305a;
+    font-size: 0.9rem;
+    backdrop-filter: blur(2px);
+}
+
+/* ── Favorite button in book detail ─────────────────────── */
+
+.favoriteBtn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: white;
+    border: 1.5px solid #dcdcdc;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #aaa;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
+    z-index: 1;
+}
+
+.favoriteBtn:hover {
+    border-color: #e0305a;
+    color: #e0305a;
+    box-shadow: 0 2px 8px rgba(224, 48, 90, 0.15);
+}
+
+.favoriteBtn.favorited {
+    color: #e0305a;
+    border-color: #e0305a;
+}
+
+@keyframes favPop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.35); }
+    100% { transform: scale(1); }
+}
+
+.favoritePop {
+    animation: favPop 0.3s ease-out forwards;
+}
+
+/* ── Post Book Page ─────────────────────────────────────── */
+
+.postBookPageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 30px;
+}
+
+.postBookContainer {
+    width: 100%;
+    max-width: 520px;
+    border: 1px solid #dcdcdc;
+    border-radius: 15px;
+    padding: 30px 60px;
+    background-color: white;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35);
+}
+
+.postBookContainer h1 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+    color: #221a45;
+}
+
+.postBookContainer .inputWrapper input,
+.postBookContainer .inputWrapper select {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    border-radius: 15px;
+    border: 1px solid #dcdcdc;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    font-size: 0.95rem;
+}
+
+.postBookContainer .inputWrapper input[type="file"] {
+    padding: 10px 12px 10px 40px;
+}
+
+.postBookContainer .inputWrapper input:focus,
+.postBookContainer .inputWrapper select:focus {
+    outline: none;
+    border-color: #6c5ce7;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.12);
+}
+
+.postBookAnotherBtn {
+    background-color: white;
+    color: #221a45;
+    border: 2px solid #221a45;
+    margin-top: 10px;
+}
+
+.postBookAnotherBtn:hover {
+    opacity: 0.85;
+}
+
+.postBookSuccess {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.postBookSuccess .bi-check-circle-fill {
+    font-size: 3rem;
+    color: #6c5ce7;
+}
+
+.postBookSuccess p {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 8px;
+}
