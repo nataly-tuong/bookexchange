@@ -21,6 +21,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.core.paginator import Paginator
 
 from django.db.models import Q
 
@@ -140,26 +141,52 @@ def book_delete(request, book_id):
 
 def searchbooks(request):
     query = request.GET.get('q', '')
-    filter = request.GET.get('filter', 'any')
+    filter_by = request.GET.get('filter', 'any')
+    price_filter = request.GET.get('price', 'any')
+    page = int(request.GET.get('page', 1))
+    per_page = 6
+
+    books = Book.objects.all()
 
     if query:
-        if filter == 'title':
-            books = Book.objects.filter(name__icontains=query)
-        if filter == 'user':
-            books = Book.objects.filter(username__username__icontains=query)
+        if filter_by == 'title':
+            books = books.filter(name__icontains=query)
+        elif filter_by == 'user':
+            books = books.filter(username__username__icontains=query)
         else:
-            books = Book.objects.filter(Q(name__icontains=query) | Q(username__username__icontains=query)
-)
+            books = books.filter(Q(name__icontains=query) | Q(username__username__icontains=query))
 
-    else:
-        books = Book.objects.all()
+    if price_filter == 'under25':
+        books = books.filter(price__lt=25)
+    elif price_filter == '25to50':
+        books = books.filter(price__gte=25, price__lte=50)
+    elif price_filter == '50to75':
+        books = books.filter(price__gte=50, price__lte=75)
+    elif price_filter == '75to100':
+        books = books.filter(price__gte=75, price__lte=100)
+    elif price_filter == 'over100':
+        books = books.filter(price__gt=100)
 
-    return render(request,
-                  'bookMng/searchbooks.html',
-                  {
-                      'item_list': MainMenu.objects.all(),
-                      'books': books,
-                  })
+    total_books = books.count()
+    total_pages = max(1, (total_books + per_page - 1) // per_page)
+    page = max(1, min(page, total_pages))
+
+    start = (page - 1) * per_page
+    end = start + per_page
+    books = books[start:end]
+
+    for b in books:
+        b.pic_path = b.picture.url[14:]
+
+    return render(request, 'bookMng/searchbooks.html', {
+        'item_list': MainMenu.objects.all(),
+        'books': books,
+        'query': query,
+        'filter_by': filter_by,
+        'price_filter': price_filter,
+        'page': page,
+        'total_pages': total_pages,
+    })
 
 
 def postcomment(request, book_id):

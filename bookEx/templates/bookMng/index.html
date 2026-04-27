@@ -10,5 +10,133 @@
 {% endblock sidenav %}
 
 {% block content %}
-   <h1>Welcome to Book Exchange System</h1>
+<div class="homeContainer">
+
+    <div class="homeHero">
+        <div class="homeHeroText">
+            <p class="homeHeroEyebrow">Welcome to</p>
+            <h1 class="homeHeroTitle">Book Exchange</h1>
+            <p class="homeHeroSubtitle">Discover, share, and trade books with your community. Find your next great read or give a loved book a new home.</p>
+            <div class="homeHeroBtns">
+                <a href="/displaybooks" class="heroBtnPrimary">Browse Books</a>
+                <a href="/postbook" class="heroBtnSecondary">Post a Book</a>
+            </div>
+        </div>
+        <div class="homeHeroIllustration">
+            <svg viewBox="0 0 220 180" xmlns="http://www.w3.org/2000/svg" class="heroSvg">
+                <rect x="20" y="30" width="45" height="130" rx="6" fill="#6c5ce7" opacity="0.85"/>
+                <rect x="24" y="34" width="37" height="122" rx="4" fill="#ede9ff"/>
+                <rect x="27" y="50" width="30" height="3" rx="2" fill="#6c5ce7" opacity="0.4"/>
+                <rect x="27" y="58" width="22" height="3" rx="2" fill="#6c5ce7" opacity="0.3"/>
+                <rect x="27" y="66" width="26" height="3" rx="2" fill="#6c5ce7" opacity="0.3"/>
+
+                <rect x="75" y="15" width="50" height="145" rx="6" fill="#221a45"/>
+                <rect x="80" y="20" width="40" height="135" rx="4" fill="#f4f4f8"/>
+                <rect x="84" y="38" width="32" height="4" rx="2" fill="#221a45" opacity="0.5"/>
+                <rect x="84" y="48" width="24" height="3" rx="2" fill="#221a45" opacity="0.3"/>
+                <rect x="84" y="56" width="28" height="3" rx="2" fill="#221a45" opacity="0.3"/>
+
+                <rect x="135" y="40" width="42" height="120" rx="6" fill="#a29bfe" opacity="0.9"/>
+                <rect x="139" y="44" width="34" height="112" rx="4" fill="#fff"/>
+                <rect x="143" y="60" width="26" height="3" rx="2" fill="#6c5ce7" opacity="0.4"/>
+                <rect x="143" y="68" width="18" height="3" rx="2" fill="#6c5ce7" opacity="0.3"/>
+
+                <ellipse cx="110" cy="168" rx="90" ry="8" fill="#221a45" opacity="0.08"/>
+            </svg>
+        </div>
+    </div>
+
+    <div class="homeStatsBar">
+        <div class="homeStat">
+            <span class="homeStatIcon">
+                <i class="bi bi-book"></i>
+            </span>
+            <div>
+                <p class="homeStatNum">Books Listed</p>
+                <p class="homeStatLabel">Browse our collection</p>
+            </div>
+        </div>
+        <div class="homeStatDivider"></div>
+        <div class="homeStat">
+            <span class="homeStatIcon">
+                <i class="bi bi-people"></i>
+            </span>
+            <div>
+                <p class="homeStatNum">Community Members</p>
+                <p class="homeStatLabel">Join the exchange</p>
+            </div>
+        </div>
+        <div class="homeStatDivider"></div>
+        <div class="homeStat">
+            <span class="homeStatIcon">
+                <i class="bi bi-arrow-left-right"></i>
+            </span>
+            <div>
+                <p class="homeStatNum">Books Exchanged</p>
+                <p class="homeStatLabel">And counting</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="homeSection">
+        <h2 class="homeSectionTitle">What would you like to do?</h2>
+        <div class="homeCardRow">
+            <a href="/displaybooks" class="homeActionCard">
+                <div class="homeActionIcon"><i class="bi bi-grid"></i></div>
+                <h3>Browse All Books</h3>
+                <p>Explore everything listed by our community members.</p>
+            </a>
+            <a href="/searchbooks" class="homeActionCard">
+                <div class="homeActionIcon"><i class="bi bi-search"></i></div>
+                <h3>Search Books</h3>
+                <p>Find a specific title or books posted by a particular user.</p>
+            </a>
+            <a href="/postbook" class="homeActionCard">
+                <div class="homeActionIcon"><i class="bi bi-journal-plus"></i></div>
+                <h3>Post a Book</h3>
+                <p>List a book you'd like to share or trade with others.</p>
+            </a>
+            <a href="/inbox" class="homeActionCard">
+                <div class="homeActionIcon"><i class="bi bi-inbox"></i></div>
+                <h3>Messages</h3>
+                <p>Connect with other members about a book you're interested in.</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="homeSection">
+        <h2 class="homeSectionTitle">Recently Added</h2>
+        <p class="homeSectionSub">The latest books posted by our community.</p>
+
+        {% if recent_books %}
+            <div class="homeRecommendRow">
+                {% for book in recent_books %}
+                <a href="/book_detail/{{ book.id }}" class="homeRecommendCard homeRecommendCardLink">
+                    <div class="homeRecommendThumb">
+                        <img src="{% static book.pic_path %}" alt="{{ book.name }}"/>
+                    </div>
+                    <div class="homeRecommendBadge">${{ book.price }}</div>
+                    <h4>{{ book.name }}</h4>
+                    <p>{{ book.username }}</p>
+                    <span class="homeRecommendLink">View Book →</span>
+                </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="homeNoBooksState">
+                <i class="bi bi-journal-x"></i>
+                <p>No books available yet.</p>
+                <span>Be the first to contribute — post a book and get the exchange started!</span>
+                <a href="/postbook" class="heroBtnPrimary">Post a Book</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="homeCta">
+        <h2>Have a book collecting dust?</h2>
+        <p>Post it here and let someone else enjoy it. It takes less than a minute.</p>
+        <a href="/postbook" class="heroBtnPrimary">Post a Book Now</a>
+    </div>
+
+</div>
 {% endblock content %}

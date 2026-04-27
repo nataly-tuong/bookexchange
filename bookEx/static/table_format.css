@@ -1,8 +1,9 @@
 .booksGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 24px;
     margin-top: 24px;
+    min-width: 0;
 }
 
 .bookCard {
@@ -70,7 +71,7 @@
 .bookCardPrice {
     font-size: 16px;
     font-weight: bold;
-    color: black;
+    color: var(--secondary-accent);
 }
 
 .bookCardUsername {
@@ -82,6 +83,89 @@
 .bookCardDate {
     font-size: 12px;
     color: #aaa;
+}
+
+.viewToggle {
+    display: flex;
+    gap: 4px;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+}
+
+.view-btn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--main-accent);
+    border-radius: 8px;
+    background: white;
+    color: #888;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.view-btn.active {
+    background: #ede9ff;
+    color: #6c5ce7;
+    border-color: #6c5ce7;
+}
+
+.booksGrid.list-view {
+    grid-template-columns: 1fr;
+}
+
+.booksGrid.list-view .bookCard {
+    display: flex;
+    flex-direction: row;
+}
+
+.booksGrid.list-view .bookCardImage {
+    width: 160px;
+    min-width: 160px;
+    height: 120px;
+}
+
+.booksGrid.list-view .bookCardInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 32px;
+}
+
+.page-btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid #e0ddf0;
+    background: white;
+    color: #333;
+    text-decoration: none;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.page-btn.active {
+    background: var(--main-accent);
+    color: white;
+    border-color: var(--main-accent);
+}
+
+.page-btn.disabled {
+    color: #bbb;
+    cursor: default;
+}
+
+.page-btn:hover:not(.active):not(.disabled) {
+    background: #f0eeff;
 }
 
 .postBookContainer {
@@ -131,4 +215,10 @@
 
 .postBookContainer input[type="submit"]:hover {
     opacity: 0.85;
+}
+
+.subtext {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 5px;
 }

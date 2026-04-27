@@ -1,0 +1,347 @@
+/* ── Home Page ─────────────────────────────────────────── */
+
+.homeContainer {
+    padding: 0 0 40px;
+}
+
+.homeHero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    padding: 48px 40px 40px;
+    background: linear-gradient(135deg, #f8f7ff 0%, #ede9ff 100%);
+    border-bottom: 1px solid #e8e4ff;
+}
+
+.homeHeroText {
+    flex: 1;
+    max-width: 520px;
+}
+
+.homeHeroEyebrow {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6c5ce7;
+    margin-bottom: 8px;
+}
+
+.homeHeroTitle {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #221a45;
+    line-height: 1.1;
+    margin-bottom: 16px;
+}
+
+.homeHeroSubtitle {
+    font-size: 1.05rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 28px;
+}
+
+.homeHeroBtns {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.heroBtnPrimary {
+    background-color: #221a45;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    padding: 12px 26px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: opacity 0.15s;
+}
+
+.heroBtnPrimary:hover { opacity: 0.85; }
+
+.heroBtnSecondary {
+    background-color: white;
+    color: #221a45;
+    text-decoration: none;
+    border-radius: 25px;
+    padding: 12px 26px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: 2px solid #221a45;
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.heroBtnSecondary:hover {
+    background-color: #221a45;
+    color: white;
+}
+
+.homeHeroIllustration {
+    flex-shrink: 0;
+}
+
+.heroSvg {
+    width: 220px;
+    height: auto;
+}
+
+/* Stats bar */
+.homeStatsBar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    background: white;
+    border-bottom: 1px solid #e8e8f0;
+    padding: 20px 40px;
+}
+
+.homeStat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 40px;
+}
+
+.homeStatIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: #ede9ff;
+    border-radius: 12px;
+    color: #6c5ce7;
+    font-size: 1.2rem;
+}
+
+.homeStatNum {
+    font-weight: 700;
+    color: #221a45;
+    font-size: 0.95rem;
+}
+
+.homeStatLabel {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.homeStatDivider {
+    width: 1px;
+    height: 40px;
+    background: #e8e8f0;
+}
+
+/* Sections */
+.homeSection {
+    padding: 40px 40px 0;
+}
+
+.homeSectionTitle {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #221a45;
+    margin-bottom: 6px;
+}
+
+.homeSectionSub {
+    color: #777;
+    font-size: 0.92rem;
+    margin-bottom: 20px;
+}
+
+/* Action cards */
+.homeCardRow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.homeActionCard {
+    background: white;
+    border: 1px solid #e8e4f0;
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s;
+    display: block;
+}
+
+.homeActionCard:hover {
+    border-color: #a29bfe;
+    box-shadow: 0 6px 24px rgba(108, 92, 231, 0.12);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.homeActionIcon {
+    width: 48px;
+    height: 48px;
+    background: #ede9ff;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c5ce7;
+    font-size: 1.3rem;
+    margin-bottom: 14px;
+}
+
+.homeActionCard h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #221a45;
+    margin-bottom: 6px;
+}
+
+.homeActionCard p {
+    font-size: 0.875rem;
+    color: #777;
+    line-height: 1.5;
+}
+
+/* Recommended */
+.homeRecommendRow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.homeRecommendCard {
+    background: #f8f7ff;
+    border: 1px solid #e8e4f0;
+    border-radius: 14px;
+    padding: 20px 18px;
+}
+
+.homeRecommendCardLink {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.homeRecommendCardLink:hover {
+    border-color: #a29bfe;
+    box-shadow: 0 6px 24px rgba(108, 92, 231, 0.12);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.homeRecommendThumb {
+    width: 100%;
+    height: 120px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: #ede9ff;
+}
+
+.homeRecommendThumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.homeRecommendBadge {
+    display: inline-block;
+    background: #ede9ff;
+    color: #6c5ce7;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    letter-spacing: 0.04em;
+}
+
+.homeRecommendCard h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #221a45;
+    margin-bottom: 4px;
+}
+
+.homeRecommendCard > p {
+    font-size: 0.82rem;
+    color: #888;
+    margin-bottom: 12px;
+}
+
+.homeRecommendLink {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #6c5ce7;
+    text-decoration: none;
+}
+
+.homeRecommendLink:hover { text-decoration: underline; }
+
+.homeNoBooksState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 48px 20px;
+    color: #888;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.homeNoBooksState i {
+    font-size: 2.5rem;
+    color: #c5bef0;
+}
+
+.homeNoBooksState p {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #221a45;
+    margin: 0;
+}
+
+.homeNoBooksState span {
+    font-size: 0.88rem;
+    max-width: 320px;
+}
+
+/* CTA banner */
+.homeCta {
+    margin: 0 40px;
+    background: linear-gradient(135deg, #221a45, #3d2d8a);
+    border-radius: 20px;
+    padding: 40px 48px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.homeCta h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.homeCta p {
+    font-size: 0.92rem;
+    opacity: 0.8;
+}
+
+.homeCta .heroBtnPrimary {
+    background: white;
+    color: #221a45;
+    flex-shrink: 0;
+}
+
+.homeCta .heroBtnPrimary:hover { opacity: 0.9; }

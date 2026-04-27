@@ -1,0 +1,35 @@
+{% if total_pages > 1 %}
+<div class="paginationBar">
+
+    <a class="pgBtn {% if page <= 1 %}pgDisabled{% endif %}"
+       {% if page > 1 %}href="?q={{ query }}&filter={{ filter_by }}&price={{ price_filter }}&page=1"{% endif %}>
+        «
+    </a>
+
+    <a class="pgBtn {% if page <= 1 %}pgDisabled{% endif %}"
+       {% if page > 1 %}href="?q={{ query }}&filter={{ filter_by }}&price={{ price_filter }}&page={{ page|add:"-1" }}"{% endif %}>
+        ‹
+    </a>
+
+    <input
+        class="pageInput"
+        type="number"
+        value="{{ page }}"
+        min="1"
+        max="{{ total_pages }}"
+        onkeydown="if(event.key==='Enter') goToPage({{ total_pages }})"
+    />
+    <span class="pgTotal">of {{ total_pages }}</span>
+
+    <a class="pgBtn {% if page >= total_pages %}pgDisabled{% endif %}"
+       {% if page < total_pages %}href="?q={{ query }}&filter={{ filter_by }}&price={{ price_filter }}&page={{ page|add:"1" }}"{% endif %}>
+        ›
+    </a>
+
+    <a class="pgBtn {% if page >= total_pages %}pgDisabled{% endif %}"
+       {% if page < total_pages %}href="?q={{ query }}&filter={{ filter_by }}&price={{ price_filter }}&page={{ total_pages }}"{% endif %}>
+        »
+    </a>
+
+</div>
+{% endif %}

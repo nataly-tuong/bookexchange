@@ -13,13 +13,15 @@
     <link href="{% static 'register.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'login.css' %}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link href="{% static 'home.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'search_book.css' %}" rel="stylesheet" type="text/css" />
 </head>
 <body class="{% block body_class %}{% endblock %}">
 
     <!-- Top Banner -->
     <header class="banner">
     <div class="bannerInner">
-        <h1>Book Exchange</h1>
+        <h1><a class="headingLink" href="/">Book Exchange</a></h1>
         <div class="bannerRight">
             {% if user.is_authenticated %}
                 <span>{{ user.username }}</span>
