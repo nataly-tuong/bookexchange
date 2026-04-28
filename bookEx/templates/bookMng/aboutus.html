@@ -1,15 +1,24 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block sidenav %}
-   {% for item in item_list %}
-      <li>
-        <a href="{{ item.link }}">  {{ item.item }} </a>
-      </li>
-   {% endfor %}
-{% endblock sidenav %}
-
 {% block content %}
-   <h1>About Us</h1>
-   <p>This is a description of the people involved, our website, it's purpose, and more.</p>
+<div class="about-container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+    <h1>About Us</h1><br>
+
+    <h3>Who We Are</h3>
+    <p>
+        Hello! We are Group 4, composed of Elijah, Nataly, Miracle, Taiten, and Nautica.
+        We are CS students learning how to collaborate for the first time while developing a website together.
+    </p>
+
+    <br>
+
+    <h3>Our Project</h3>
+    <p>
+        The Book Exchange System was designed to create a community-driven space where book lovers can easily discover, trade, and share their favorite reads. Our goal is to promote sustainability and accessibility by helping users give their loved books a new home while finding their next great adventure.
+    </p>
+    <p>
+        Whether you are posting a book to share or searching for something new, we hope this platform makes the exchange process simple and enjoyable!
+    </p>
+</div>
 {% endblock content %}

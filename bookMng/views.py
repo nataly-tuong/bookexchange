@@ -60,7 +60,7 @@ def index(request):
         favorited_ids = set(Favorite.objects.filter(user=request.user).values_list('book_id', flat=True))
 
     return render(request, 'bookMng/index.html', {
-        'item_list': MainMenu.objects.all(),
+        
         'recent_books': recent_books,
         'favorited_ids': favorited_ids,
     })
@@ -86,7 +86,7 @@ def postbook(request):
                   'bookMng/postbook.html',
                   {
                       'form': form,
-                      'item_list': MainMenu.objects.all(),
+                      
                       'submitted': submitted
                   })
 
@@ -100,7 +100,7 @@ def displaybooks(request):
         favorited_ids = set(Favorite.objects.filter(user=request.user).values_list('book_id', flat=True))
 
     return render(request, 'bookMng/displaybooks.html', {
-        'item_list': MainMenu.objects.all(),
+        
         'books': books,
         'favorited_ids': favorited_ids,
     })
@@ -116,7 +116,7 @@ def book_detail(request, book_id):
         is_favorited = Favorite.objects.filter(user=request.user, book=book).exists()
 
     return render(request, 'bookMng/book_detail.html', {
-        'item_list': MainMenu.objects.all(),
+        
         'book': book,
         'comments': comments,
         'form': form,
@@ -127,7 +127,7 @@ def aboutus(request):
     return render(request,
                   'bookMng/aboutus.html',
                   {
-                      'item_list': MainMenu.objects.all(),
+                      
                   })
 
 
@@ -138,7 +138,7 @@ def mybooks(request):
     return render(request,
                   'bookMng/mybooks.html',
                   {
-                      'item_list': MainMenu.objects.all(),
+                      
                       'books': books
                   })
 
@@ -149,7 +149,7 @@ def book_delete(request, book_id):
     return render(request,
                   'bookMng/book_delete.html',
                   {
-                      'item_list': MainMenu.objects.all(),
+                      
                   })
 
 def searchbooks(request):
@@ -196,7 +196,7 @@ def searchbooks(request):
         favorited_ids = set(Favorite.objects.filter(user=request.user).values_list('book_id', flat=True))
 
     return render(request, 'bookMng/searchbooks.html', {
-        'item_list': MainMenu.objects.all(),
+        
         'books': books,
         'query': query,
         'filter_by': filter_by,
@@ -262,7 +262,7 @@ def inbox(request: HttpRequest) -> HttpResponse:
 
     context = {
         "thread_data": thread_data,
-        'item_list': MainMenu.objects.all(),
+        
     }
     return render(request, "bookMng/inbox.html", context)
 
@@ -305,7 +305,7 @@ def thread_detail(request: HttpRequest, thread_id: int) -> HttpResponse:
         "thread": thread,
         "other_user": thread.other_user(request.user),
         "thread_messages": thread_messages,
-        'item_list': MainMenu.objects.all(),
+        
     }
     return render(request, "bookMng/thread.html", context)
 
@@ -371,7 +371,7 @@ def compose_message(request: HttpRequest) -> HttpResponse:
     context = {
         "available_users": available_users,
         "selected_user": selected_user,
-        'item_list': MainMenu.objects.all(),
+        
     }
     return render(request, "bookMng/compose.html", context)
 
@@ -426,7 +426,7 @@ def favorites(request):
             b.pic_path = b.picture.url[14:]
 
     return render(request, 'bookMng/favorites.html', {
-        'item_list': MainMenu.objects.all(),
+        
         'favorite_books': favorite_books,
         'recent_books': recent_books,
     })

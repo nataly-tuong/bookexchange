@@ -33,8 +33,12 @@
                             <span class="bookCardPrice">${{ book.price }}</span>
                         </div>
                     </div>
-                    <p class="bookCardUsername">{{ book.username }}</p>
-                    <p class="bookCardDate">{{ book.publishdate }}</p>
+                    <p class="bookCardUsername">
+                        <i class="bi bi-person"></i> {{ book.username }}
+                    </p>
+                    <p class="bookCardDate">
+                        <i class="bi bi-calendar3"></i> {{ book.publishdate }}
+                    </p>
                 </div>
             </a>
             {% endfor %}
@@ -60,8 +64,12 @@
                                 <span class="bookCardPrice">${{ book.price }}</span>
                             </div>
                         </div>
-                        <p class="bookCardUsername">{{ book.username }}</p>
-                        <p class="bookCardDate">{{ book.publishdate }}</p>
+                        <p class="bookCardUsername">
+                            <i class="bi bi-person"></i> {{ book.username }}
+                        </p>
+                        <p class="bookCardDate">
+                            <i class="bi bi-calendar3"></i> {{ book.publishdate }}
+                        </p>
                     </div>
                 </a>
                 {% endfor %}

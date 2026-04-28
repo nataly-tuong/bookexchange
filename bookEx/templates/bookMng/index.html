@@ -19,7 +19,11 @@
             <p class="homeHeroSubtitle">Discover, share, and trade books with your community. Find your next great read or give a loved book a new home.</p>
             <div class="homeHeroBtns">
                 <a href="/displaybooks" class="heroBtnPrimary">Browse Books</a>
-                <a href="/postbook" class="heroBtnSecondary">Post a Book</a>
+                {% if user.is_authenticated %}
+                    <a href="/postbook" class="heroBtnSecondary">Post a Book</a>
+                {% else %}
+                    <a href="/register" class="heroBtnSecondary">Register</a>
+                {% endif %}
             </div>
         </div>
         <div class="homeHeroIllustration">
@@ -91,16 +95,20 @@
                 <h3>Search Books</h3>
                 <p>Find a specific title or books posted by a particular user.</p>
             </a>
-            <a href="/postbook" class="homeActionCard">
-                <div class="homeActionIcon"><i class="bi bi-journal-plus"></i></div>
-                <h3>Post a Book</h3>
-                <p>List a book you'd like to share or trade with others.</p>
-            </a>
-            <a href="/inbox" class="homeActionCard">
-                <div class="homeActionIcon"><i class="bi bi-inbox"></i></div>
-                <h3>Messages</h3>
-                <p>Connect with other members about a book you're interested in.</p>
-            </a>
+            {% if user.is_authenticated %}
+                <a href="/postbook" class="homeActionCard">
+                    <div class="homeActionIcon"><i class="bi bi-journal-plus"></i></div>
+                    <h3>Post a Book</h3>
+                    <p>List a book you'd like to share or trade with others.</p>
+                </a>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <a href="/inbox" class="homeActionCard">
+                    <div class="homeActionIcon"><i class="bi bi-inbox"></i></div>
+                    <h3>Messages</h3>
+                    <p>Connect with other members about a book you're interested in.</p>
+                </a>
+            {% endif %}
         </div>
     </div>
 
@@ -135,11 +143,19 @@
         {% endif %}
     </div>
 
-    <div class="homeCta">
-        <h2>Have a book collecting dust?</h2>
-        <p>Post it here and let someone else enjoy it. It takes less than a minute.</p>
-        <a href="/postbook" class="heroBtnPrimary">Post a Book Now</a>
-    </div>
+   {% if user.is_authenticated %}
+        <div class="homeCta">
+            <h2>Have a book collecting dust?</h2>
+            <p>Post it here and let someone else enjoy it. It takes less than a minute.</p>
+            <a href="/postbook" class="heroBtnPrimary">Post a Book Now</a>
+        </div>
+    {% else %}
+        <div class="homeCta">
+            <h2>Still without an account?</h2>
+            <p>Register today! With a free account, you'll be able to post, buy, and favorite books. You will also be able to message other users.</p>
+            <a href="/register" class="heroBtnPrimary">Make an Account Now</a>
+        </div>
+    {% endif %}
 
 </div>
 {% endblock content %}

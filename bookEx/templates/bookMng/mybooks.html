@@ -1,49 +1,50 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block sidenav %}
-   {% for item in item_list %}
-      <li>
-        <a href="{{ item.link }}">  {{ item.item }} </a>
-      </li>
-   {% endfor %}
-{% endblock sidenav %}
-
 {% block content %}
-   <h1>Display Books</h1>
-   <table border="2" >
-      <tr>
-          <th>
-              Book Name
-          </th>
-          <th>
-              Book Price
-          </th>
-          <th>
-              User Name
-          </th>
+   <h1>My Books</h1>
 
-          <th>
-              DELETE
-          </th>
-      </tr>
-   {% for book in books %}
-       <tr>
-         <td>
-                <a href="book_detail/{{ book.id }}">  {{ book.name }} </a>
-         </td>
-         <td>
-            {{ book.price }}
-         </td>
-          <td>
-            {{ book.username }}
-         </td>
+   <div class="booksGrid">
+       {% for book in books %}
 
-           <td>
-            <a href="book_delete/{{ book.id }}">  <img src="{% static 'delete_button.jpg' %}" width="100" />
-            </a>
-           </td>
-      </tr>
-   {% endfor %}
-   </table>
+       <div class="bookCard">
+
+           <a href="book_detail/{{ book.id }}" style="text-decoration: none; color: inherit;">
+               <div class="bookCardImage">
+                <img src="{% static book.pic_path %}" />
+                {% if user.is_authenticated and book.id in favorited_ids %}
+                    <span class="cardHeartIcon"><i class="bi bi-heart-fill"></i></span>
+                {% endif %}
+            </div>
+
+               <div class="bookCardInfo">
+                   <div class="bookCardTop">
+                       <p class="bookCardName">{{ book.name }}</p>
+                       <div class="bookCardPriceBlock">
+                           <span class="bookCardFrom">Price</span>
+                           <span class="bookCardPrice">${{ book.price }}</span>
+                       </div>
+                   </div>
+                   <p class="bookCardUsername">
+                       <i class="bi bi-person"></i> {{ book.username }}
+                   </p>
+                   <p class="bookCardDate">
+                       <i class="bi bi-calendar3"></i> {{ book.publishdate }}
+                   </p>
+               </div>
+           </a>
+
+           <div style="padding: 0 12px 12px; display: flex; justify-content: flex-end;">
+               <a href="book_delete/{{ book.id }}"
+                  class="btn btn-sm delete-btn"
+                  title="Delete Book"
+                  onclick="return confirm('Are you sure you want to delete this book?')">
+                   <i class="bi bi-trash3"></i>
+               </a>
+           </div>
+
+       </div>
+
+       {% endfor %}
+   </div>
 {% endblock content %}

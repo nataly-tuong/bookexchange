@@ -46,7 +46,7 @@
             <ul>
                {% for item in item_list %}
 
-                   {% if user.is_authenticated or item.item != 'My Books' and item.item != 'Inbox' %}
+                  {% if user.is_authenticated or item.item != 'My Books' and item.item != 'Inbox' and item.item != 'Favorites' and item.item != 'Post Book' %}
                       <li>
                           <a href="{{ item.link }}">  {{ item.item }} </a>
                       </li>
