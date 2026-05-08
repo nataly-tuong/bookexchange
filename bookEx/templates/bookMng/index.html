@@ -119,18 +119,36 @@
         {% if recent_books %}
             <div class="homeRecommendRow">
                 {% for book in recent_books %}
-                <a href="/book_detail/{{ book.id }}" class="homeRecommendCard homeRecommendCardLink">
-                    <div class="homeRecommendThumb">
-                        <img src="{% static book.pic_path %}" alt="{{ book.name }}"/>
-                        {% if user.is_authenticated and book.id in favorited_ids %}
-                            <span class="cardHeartIcon"><i class="bi bi-heart-fill"></i></span>
+                <div class="homeRecommendCard">
+                    <a href="/book_detail/{{ book.id }}" class="homeRecommendCardLink" style="text-decoration: none; color: inherit;">
+                        <div class="homeRecommendThumb">
+                            <img src="{% static book.pic_path %}" alt="{{ book.name }}"/>
+                            {% if user.is_authenticated and book.id in favorited_ids %}
+                                <span class="cardHeartIcon"><i class="bi bi-heart-fill"></i></span>
+                            {% endif %}
+                        </div>
+                        <div class="homeRecommendBadge">${{ book.price }}</div>
+                        <h4>{{ book.name }}</h4>
+                        <p>{{ book.username }}</p>
+                        <span class="homeRecommendLink">View Book →</span>
+                    </a>
+                    <div class="bookCardCartWrap">
+                        {% if user.is_authenticated %}
+                            <form method="post" action="{% url 'cart:cart_add' book.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="quantity" value="1">
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                                <button type="submit" class="bookCardCartButton">
+                                    <i class="bi bi-cart-plus"></i> Add to Cart
+                                </button>
+                            </form>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="bookCardCartButton">
+                                <i class="bi bi-lock"></i> Login to Buy
+                            </a>
                         {% endif %}
                     </div>
-                    <div class="homeRecommendBadge">${{ book.price }}</div>
-                    <h4>{{ book.name }}</h4>
-                    <p>{{ book.username }}</p>
-                    <span class="homeRecommendLink">View Book →</span>
-                </a>
+                </div>
                 {% endfor %}
             </div>
         {% else %}
@@ -143,7 +161,7 @@
         {% endif %}
     </div>
 
-   {% if user.is_authenticated %}
+    {% if user.is_authenticated %}
         <div class="homeCta">
             <h2>Have a book collecting dust?</h2>
             <p>Post it here and let someone else enjoy it. It takes less than a minute.</p>

@@ -34,6 +34,24 @@
                </div>
            </a>
 
+
+            <div class="bookCardCartWrap">
+                {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'cart:cart_add' book.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="quantity" value="1">
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button type="submit" class="bookCardCartButton">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="bookCardCartButton">
+                        <i class="bi bi-lock"></i> Login to Buy
+                    </a>
+                {% endif %}
+            </div>
+
            <div style="padding: 0 12px 12px; display: flex; justify-content: flex-end;">
                <a href="book_delete/{{ book.id }}"
                   class="btn btn-sm delete-btn"

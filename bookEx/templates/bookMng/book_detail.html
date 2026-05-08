@@ -27,7 +27,6 @@
             <i class="bi {% if is_favorited %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
         </button>
         {% endif %}
-
         <p class="bookMiniText">Book Detail</p>
 
         <h1 class="bookBigName">{{ book.name }}</h1>
@@ -53,15 +52,29 @@
                 <a href="{{ book.web }}" target="_blank">{{ book.web }}</a>
             </p>
         </div>
+
+        <form method="post" action="{% url 'cart:cart_add' book.id %}" style="margin-top: 15px;">
+            {% csrf_token %}
+            <input type="hidden" name="quantity" value="1">
+            <input type="hidden" name="next" value="{% url 'cart:cart_detail' %}">
+            <button type="submit" style="padding:10px 14px; background:#1e1b3a; color:#fff; border:none; border-radius:8px; cursor:pointer;">
+                <i class="bi bi-cart-plus"></i> Add to Cart
+            </button>
+        </form>
     </div>
 </div>
+
+<hr>
 
 <div class="commentContainer">
 
 {% if user.is_authenticated %}
 <form action="{% url 'postcomment' book.id %}" method="post">
     {% csrf_token %}
+
+    <!-- decides edit vs create -->
     <input type="hidden" name="comment_id" id="comment_id">
+
     <div class="textareaContainer">
         <textarea
             id="comment_text"
@@ -70,6 +83,7 @@
             placeholder="enter a comment..."
             rows="5"
             cols="50"></textarea>
+
         <input type="submit" value="Post / Save Comment">
     </div>
 </form>
@@ -112,7 +126,6 @@ function startEdit(id, text) {
     document.getElementById("comment_text").focus();
 }
 </script>
-
 <script>
 document.querySelectorAll('.favoriteBtn').forEach(btn => {
     btn.addEventListener('click', function() {
@@ -148,5 +161,4 @@ document.querySelectorAll('.favoriteBtn').forEach(btn => {
     });
 });
 </script>
-
 {% endblock content %}

@@ -1,10 +1,10 @@
-{%  load static %}
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Simple Layout</title>
+
     <link href="{%  static 'main.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'table_format.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'comments.css' %}" rel="stylesheet" type="text/css" />
@@ -12,31 +12,38 @@
     <link href="{% static 'message_box.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'register.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'login.css' %}" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link href="{% static 'home.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'search_book.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'favorites.css' %}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
 <body class="{% block body_class %}{% endblock %}">
-
     <!-- Top Banner -->
     <header class="banner">
-    <div class="bannerInner">
-        <h1><a class="headingLink" href="/">Book Exchange</a></h1>
-        <div class="bannerRight">
-            {% if user.is_authenticated %}
-                <span>{{ user.username }}</span>
-                <form action="{% url 'logout' %}?next=/" method="post">
-                    <button type="submit">Logout</button>
-                    {% csrf_token %}
-                </form>
-            {% else %}
-                <span>Not logged in</span>
-                <a href="{% url 'login' %}?next=/">Login</a>
-            {% endif %}
+        <div class="bannerInner">
+            <h1><a class="headingLink" href="/"><img src="https://cdn3.emoji.gg/stickers/76698-seal.png" class="banner-icon">Pacific Book Hook</a></h1>
+
+            <div class="bannerRight">
+                {% if user.is_authenticated %}
+                <a class="bannerCartLink" href="{% url 'cart:cart_detail' %}">
+                    <i class="bi bi-cart3"></i>
+                    <span>Cart{% if cart_item_count %} ({{ cart_item_count }}){% endif %}</span>
+                </a>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                    <span>{{ user.username }}</span>
+                    <form action="{% url 'logout' %}?next=/" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
+                {% else %}
+                    <span>Not logged in</span>
+                    <a href="{% url 'login' %}?next=/">Login</a>
+                {% endif %}
+            </div>
         </div>
-    </div>
-</header>
+    </header>
 
     <!-- Main Layout -->
     <div class="container">
@@ -45,24 +52,28 @@
         <nav class="sidebar">
             <ul>
                {% for item in item_list %}
-
-                  {% if user.is_authenticated or item.item != 'My Books' and item.item != 'Inbox' and item.item != 'Favorites' and item.item != 'Post Book' %}
-                      <li>
-                          <a href="{{ item.link }}">  {{ item.item }} </a>
-                      </li>
+                   {% if item.item and item.link %}
+                       {% if user.is_authenticated or item.item != 'My Books' and item.item != 'Inbox' and item.item != 'Favorites' and item.item != 'Post Book' %}
+                          <li>
+                              <a href="{{ item.link }}">{{ item.item }}</a>
+                          </li>
+                       {% endif %}
                    {% endif %}
-
                {% endfor %}
+                {% if user.is_authenticated %}
+                <li>
+                   <a href="{% url 'cart:cart_detail' %}">Cart{% if cart_item_count %} ({{ cart_item_count }}){% endif %}</a>
+               </li>
+                {% endif %}
             </ul>
         </nav>
 
         <!-- Right Main Content -->
         <main class="content">
             {% block content %}
-               <h1>This is Base Main Content</h1>
+               <h1>Main Content</h1>
             {% endblock content %}
         </main>
-
     </div>
 
     <!-- Bottom Footer -->

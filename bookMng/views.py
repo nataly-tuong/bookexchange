@@ -3,6 +3,7 @@ from django.http import (
     HttpRequest,
     HttpResponse,
     HttpResponseRedirect,
+    JsonResponse,
 )
 from django.shortcuts import (
     get_object_or_404,
@@ -21,34 +22,31 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
-from .models import Book, Comment, MainMenu, MessageThread, PrivateMessage, Favorite
 
 from django.db.models import Q
 
 from .models import (
     Book,
     Comment,
+    Favorite,
     MainMenu,
     MessageThread,
     PrivateMessage,
 )
 from .forms import BookForm, CommentForm
+
+
+
 # Create your views here.
 
-'''
-def index(request):
-    return HttpResponse("<h1 align='center'>Hello World</h1> \
-                        <h2>This is a try</h2> \
-                        This is a test \
-                        ")
-'''
-
-'''
-def index(request):
-    return render(request, 'base.html')
-'''
+# def index(request):
+#     return HttpResponse("""<h1 align='center'>Hello World!</h1>
+#                         <h2>This is a try</h2>
+#                         This is a test
+#                         """)
+#
+# def index(request):
+#     return render(request, 'base.html')
 
 def index(request):
     recent_books = Book.objects.order_by('-publishdate')[:3]
@@ -60,11 +58,12 @@ def index(request):
         favorited_ids = set(Favorite.objects.filter(user=request.user).values_list('book_id', flat=True))
 
     return render(request, 'bookMng/index.html', {
-        
+
         'recent_books': recent_books,
         'favorited_ids': favorited_ids,
     })
 
+@login_required
 def postbook(request):
     submitted = False
     if request.method == 'POST':
@@ -86,7 +85,7 @@ def postbook(request):
                   'bookMng/postbook.html',
                   {
                       'form': form,
-                      
+
                       'submitted': submitted
                   })
 
@@ -100,10 +99,19 @@ def displaybooks(request):
         favorited_ids = set(Favorite.objects.filter(user=request.user).values_list('book_id', flat=True))
 
     return render(request, 'bookMng/displaybooks.html', {
-        
+
         'books': books,
         'favorited_ids': favorited_ids,
     })
+
+class Register(CreateView):
+    template_name = 'registration/register.html'
+    form_class = UserCreationForm
+    success_url = reverse_lazy('register-success')
+
+    def form_valid(self, form):
+        form.save()
+        return HttpResponseRedirect(self.success_url)
 
 def book_detail(request, book_id):
     book = Book.objects.get(id=book_id)
@@ -116,21 +124,14 @@ def book_detail(request, book_id):
         is_favorited = Favorite.objects.filter(user=request.user, book=book).exists()
 
     return render(request, 'bookMng/book_detail.html', {
-        
+
         'book': book,
         'comments': comments,
         'form': form,
         'is_favorited': is_favorited,
     })
 
-def aboutus(request):
-    return render(request,
-                  'bookMng/aboutus.html',
-                  {
-                      
-                  })
-
-
+@login_required
 def mybooks(request):
     books = Book.objects.filter(username=request.user)
     for b in books:
@@ -138,103 +139,24 @@ def mybooks(request):
     return render(request,
                   'bookMng/mybooks.html',
                   {
-                      
+
                       'books': books
                   })
 
+@login_required
 def book_delete(request, book_id):
-    book = Book.objects.get(id=book_id)
-    book.delete()
-
-    return render(request,
-                  'bookMng/book_delete.html',
-                  {
-                      
-                  })
-
-def searchbooks(request):
-    query = request.GET.get('q', '')
-    filter_by = request.GET.get('filter', 'any')
-    price_filter = request.GET.get('price', 'any')
-    page = int(request.GET.get('page', 1))
-    per_page = 6
-
-    books = Book.objects.all()
-
-    if query:
-        if filter_by == 'title':
-            books = books.filter(name__icontains=query)
-        elif filter_by == 'user':
-            books = books.filter(username__username__icontains=query)
-        else:
-            books = books.filter(Q(name__icontains=query) | Q(username__username__icontains=query))
-
-    if price_filter == 'under25':
-        books = books.filter(price__lt=25)
-    elif price_filter == '25to50':
-        books = books.filter(price__gte=25, price__lte=50)
-    elif price_filter == '50to75':
-        books = books.filter(price__gte=50, price__lte=75)
-    elif price_filter == '75to100':
-        books = books.filter(price__gte=75, price__lte=100)
-    elif price_filter == 'over100':
-        books = books.filter(price__gt=100)
-
-    total_books = books.count()
-    total_pages = max(1, (total_books + per_page - 1) // per_page)
-    page = max(1, min(page, total_pages))
-
-    start = (page - 1) * per_page
-    end = start + per_page
-    books = books[start:end]
-
-    for b in books:
-        b.pic_path = b.picture.url[14:]
-
-    favorited_ids = set()
-    if request.user.is_authenticated:
-        favorited_ids = set(Favorite.objects.filter(user=request.user).values_list('book_id', flat=True))
-
-    return render(request, 'bookMng/searchbooks.html', {
-        
-        'books': books,
-        'query': query,
-        'filter_by': filter_by,
-        'price_filter': price_filter,
-        'page': page,
-        'total_pages': total_pages,
-        'favorited_ids': favorited_ids
-    })
-
-
-def postcomment(request, book_id):
     book = get_object_or_404(Book, id=book_id)
 
-    if request.method == 'POST':
-        text = request.POST.get("text")
-        comment_id = request.POST.get("comment_id")
+    if book.username != request.user:
+        messages.error(request, "You are not allowed to delete this book.")
+        return redirect('displaybooks')
 
-        # Edit comment
-        if comment_id:
-            comment = get_object_or_404(Comment, id=comment_id)
-            if request.user == comment.username:
-                comment.text = text
-                comment.save()
+    book.delete()
+    messages.success(request, "Book deleted successfully.")
 
-        # Create comment
-        else:
-            Comment.objects.create(
-                book=book,
-                username=request.user,
-                text=text
-            )
-
-    return redirect('book_detail', book_id=book.id)
-
-from .models import MessageThread, PrivateMessage
+    return redirect('mybooks')
 
 User = get_user_model()
-
 
 @login_required
 @require_GET
@@ -262,7 +184,7 @@ def inbox(request: HttpRequest) -> HttpResponse:
 
     context = {
         "thread_data": thread_data,
-        
+
     }
     return render(request, "bookMng/inbox.html", context)
 
@@ -305,7 +227,7 @@ def thread_detail(request: HttpRequest, thread_id: int) -> HttpResponse:
         "thread": thread,
         "other_user": thread.other_user(request.user),
         "thread_messages": thread_messages,
-        
+
     }
     return render(request, "bookMng/thread.html", context)
 
@@ -371,7 +293,7 @@ def compose_message(request: HttpRequest) -> HttpResponse:
     context = {
         "available_users": available_users,
         "selected_user": selected_user,
-        
+
     }
     return render(request, "bookMng/compose.html", context)
 
@@ -391,12 +313,105 @@ def mark_thread_read(request: HttpRequest, thread_id: int) -> HttpResponse:
     messages.success(request, "Thread marked as read.")
     return redirect("thread_detail", thread_id=thread.id)
 
+def aboutus(request):
+
+    return render(request,
+                  'bookMng/aboutus.html',
+                  {
+
+                  })
+
+
+def searchbooks(request):
+    query = request.GET.get('q', '')
+    filter_by = request.GET.get('filter', 'any')
+    price_filter = request.GET.get('price', 'any')
+    page = int(request.GET.get('page', 1))
+    per_page = 6
+
+    books = Book.objects.all()
+
+    if query:
+        if filter_by == 'title':
+            books = books.filter(name__icontains=query)
+        elif filter_by == 'user':
+            books = books.filter(username__username__icontains=query)
+        else:
+            books = books.filter(Q(name__icontains=query) | Q(username__username__icontains=query))
+
+    if price_filter == 'under25':
+        books = books.filter(price__lt=25)
+    elif price_filter == '25to50':
+        books = books.filter(price__gte=25, price__lte=50)
+    elif price_filter == '50to75':
+        books = books.filter(price__gte=50, price__lte=75)
+    elif price_filter == '75to100':
+        books = books.filter(price__gte=75, price__lte=100)
+    elif price_filter == 'over100':
+        books = books.filter(price__gt=100)
+
+    total_books = books.count()
+    total_pages = max(1, (total_books + per_page - 1) // per_page)
+    page = max(1, min(page, total_pages))
+
+    start = (page - 1) * per_page
+    end = start + per_page
+    books = books[start:end]
+
+    for b in books:
+        b.pic_path = b.picture.url[14:]
+
+    favorited_ids = set()
+    if request.user.is_authenticated:
+        favorited_ids = set(Favorite.objects.filter(user=request.user).values_list('book_id', flat=True))
+
+    return render(request, 'bookMng/searchbooks.html', {
+
+        'books': books,
+        'query': query,
+        'filter_by': filter_by,
+        'price_filter': price_filter,
+        'page': page,
+        'total_pages': total_pages,
+        'favorited_ids': favorited_ids
+    })
+
+@login_required
+def postcomment(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+
+    if request.method == 'POST':
+        text = request.POST.get("text")
+        comment_id = request.POST.get("comment_id")
+
+        # Edit comment
+        if comment_id:
+            comment = get_object_or_404(Comment, id=comment_id)
+            if request.user == comment.username:
+                comment.text = text
+                comment.save()
+
+        # Create comment
+        else:
+            Comment.objects.create(
+                book=book,
+                username=request.user,
+                text=text
+            )
+
+    return redirect('book_detail', book_id=book.id)
+
+@login_required
 def comment_delete(request, comment_id):
-    comment = Comment.objects.get(id=comment_id)
+    comment = get_object_or_404(Comment, id=comment_id)
     book = comment.book
 
-    if request.user == comment.username:
-        comment.delete()
+    if comment.username != request.user:
+        messages.error(request, "You are not allowed to delete this comment.")
+        return redirect('book_detail', book_id=book.id)
+
+    comment.delete()
+    messages.success(request, "Comment deleted.")
 
     return redirect('book_detail', book_id=book.id)
 
@@ -426,16 +441,7 @@ def favorites(request):
             b.pic_path = b.picture.url[14:]
 
     return render(request, 'bookMng/favorites.html', {
-        
+
         'favorite_books': favorite_books,
         'recent_books': recent_books,
     })
-
-class Register(CreateView):
-    template_name = 'registration/register.html'
-    form_class = UserCreationForm
-    success_url = reverse_lazy('register-success')
-
-    def form_valid(self, form):
-        form.save()
-        return HttpResponseRedirect(self.success_url)

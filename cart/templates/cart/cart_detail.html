@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Your Cart – Book Exchange{% endblock %}
+
+{% block content %}
+<div class="cart-page">
+  <h1 class="cart-title">Your Cart
+    {% if total_items %}
+      <span class="cart-badge">{{ total_items }} item{{ total_items|pluralize }}</span>
+    {% endif %}
+  </h1>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  {% if items %}
+    <div class="cart-layout">
+      <!-- Items list -->
+      <div class="cart-items">
+        {% for item in items %}
+        <div class="cart-card">
+          {% if item.book.picture %}
+            <img src="{% static item.book.pic_path %}" alt="{{ item.book.name }}">
+          {% else %}
+            <div class="cart-book-img cart-book-img--placeholder">📚</div>
+          {% endif %}
+
+          <div class="cart-book-info">
+            <h3 class="cart-book-title">{{ item.book.name }}</h3>
+            <p class="cart-book-price">${{ item.price }}</p>
+            {% if item.book.username %}
+              <p class="cart-book-seller">Seller: {{ item.book.username }}</p>
+            {% endif %}
+          </div>
+
+          <div class="cart-controls">
+            <!-- Quantity form -->
+            <form method="post" action="{% url 'cart:cart_update' item.book.pk %}" class="qty-form">
+              {% csrf_token %}
+              <button type="submit" name="quantity" value="{{ item.quantity|add:'-1' }}" class="qty-btn">−</button>
+              <span class="qty-value">{{ item.quantity }}</span>
+              <button type="submit" name="quantity" value="{{ item.quantity|add:'1' }}" class="qty-btn">+</button>
+            </form>
+            <p class="cart-subtotal">${{ item.subtotal }}</p>
+            <!-- Remove -->
+            <form method="post" action="{% url 'cart:cart_remove' item.book.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="remove-btn">Remove</button>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Summary panel -->
+      <div class="cart-summary">
+        <h2 class="summary-title">Order Summary</h2>
+        <div class="summary-row">
+          <span>Items ({{ total_items }})</span>
+          <span>${{ total }}</span>
+        </div>
+        <div class="summary-row summary-row--total">
+          <span>Total</span>
+          <span>${{ total }}</span>
+        </div>
+        <a href="{% url 'cart:checkout' %}" class="checkout-btn">Proceed to Checkout →</a>
+        <a href="/displaybooks" class="continue-btn">← Continue Shopping</a>      </div>
+    </div>
+
+  {% else %}
+    <div class="empty-cart">
+      <p class="empty-icon">🛒</p>
+      <h2>Your cart is empty</h2>
+      <p>Browse our collection and add some books!</p>
+      <a href="/displaybooks" class="checkout-btn">Browse Books</a>    </div>
+  {% endif %}
+</div>
+
+<style>
+.cart-page { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
+
+.cart-title {
+  font-size: 1.8rem; font-weight: 700; color: #1e1b3a;
+  margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;
+}
+.cart-badge {
+  font-size: 0.9rem; background: #1e1b3a; color: #fff;
+  padding: 0.25rem 0.75rem; border-radius: 999px;
+}
+
+.alert { padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1rem; }
+.alert-success { background: #d4edda; color: #155724; }
+.alert-info    { background: #d1ecf1; color: #0c5460; }
+.alert-warning { background: #fff3cd; color: #856404; }
+
+.cart-layout { display: grid; grid-template-columns: 1fr 320px; gap: 2rem; align-items: start; }
+
+/* Cart item card */
+.cart-card {
+  display: flex; gap: 1.25rem; align-items: center;
+  background: #fff; border: 1px solid #e8e8ef;
+  border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.cart-book-img {
+  width: 80px; height: 100px; object-fit: cover;
+  border-radius: 6px; flex-shrink: 0;
+}
+.cart-book-img--placeholder {
+  display: flex; align-items: center; justify-content: center;
+  background: #f0f0f8; font-size: 2rem;
+}
+.cart-book-info { flex: 1; }
+.cart-book-title { font-size: 1rem; font-weight: 600; color: #1e1b3a; margin: 0 0 0.25rem; }
+.cart-book-price { color: #555; margin: 0; }
+.cart-book-seller { font-size: 0.8rem; color: #888; margin: 0.25rem 0 0; }
+
+.cart-controls { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
+
+.qty-form { display: flex; align-items: center; gap: 0.5rem; }
+.qty-btn {
+  width: 30px; height: 30px; border-radius: 6px; border: 1px solid #ccc;
+  background: #f4f4f8; cursor: pointer; font-size: 1.1rem; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.qty-btn:hover { background: #1e1b3a; color: #fff; border-color: #1e1b3a; }
+.qty-value { font-weight: 700; font-size: 1rem; min-width: 24px; text-align: center; }
+.cart-subtotal { font-weight: 700; color: #1e1b3a; margin: 0; }
+
+.remove-btn {
+  background: none; border: none; color: #c0392b; cursor: pointer;
+  font-size: 0.8rem; text-decoration: underline; padding: 0;
+}
+.remove-btn:hover { color: #922b21; }
+
+/* Summary panel */
+.cart-summary {
+  background: #1e1b3a; color: #fff;
+  border-radius: 16px; padding: 1.75rem;
+  position: sticky; top: 1.5rem;
+}
+.summary-title { font-size: 1.2rem; font-weight: 700; margin: 0 0 1.25rem; }
+.summary-row {
+  display: flex; justify-content: space-between;
+  padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.95rem;
+}
+.summary-row--total {
+  font-size: 1.1rem; font-weight: 700; border-bottom: none;
+  margin-top: 0.5rem; padding-top: 1rem;
+  border-top: 2px solid rgba(255,255,255,0.2);
+}
+
+.checkout-btn {
+  display: block; text-align: center; margin-top: 1.25rem;
+  background: #fff; color: #1e1b3a; font-weight: 700;
+  padding: 0.85rem; border-radius: 10px; text-decoration: none;
+  transition: opacity 0.2s;
+}
+.checkout-btn:hover { opacity: 0.9; }
+.continue-btn {
+  display: block; text-align: center; margin-top: 0.75rem;
+  color: rgba(255,255,255,0.7); font-size: 0.85rem; text-decoration: none;
+}
+.continue-btn:hover { color: #fff; }
+
+/* Empty state */
+.empty-cart { text-align: center; padding: 4rem 1rem; }
+.empty-icon { font-size: 4rem; margin-bottom: 1rem; }
+.empty-cart h2 { color: #1e1b3a; margin-bottom: 0.5rem; }
+.empty-cart p { color: #666; margin-bottom: 1.5rem; }
+.empty-cart .checkout-btn { display: inline-block; background: #1e1b3a; color: #fff; padding: 0.85rem 2rem; border-radius: 10px; }
+
+@media (max-width: 768px) {
+  .cart-layout { grid-template-columns: 1fr; }
+  .cart-card { flex-wrap: wrap; }
+}
+</style>
+{% endblock %}

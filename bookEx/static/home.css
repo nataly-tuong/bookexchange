@@ -237,13 +237,13 @@
 }
 
 .homeRecommendThumb {
+    position: relative;
     width: 100%;
     height: 120px;
     border-radius: 10px;
     overflow: hidden;
     margin-bottom: 12px;
     background: #ede9ff;
-    position: relative;
 }
 
 .homeRecommendThumb img {

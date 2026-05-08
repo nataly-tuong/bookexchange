@@ -1,14 +1,17 @@
 from django.contrib.auth.models import User
 from django.db import models
-
 from django.conf import settings
+from django.db import models
 from django.utils import timezone
+
 # Create your models here.
+
 
 class MainMenu(models.Model):
     item = models.CharField(max_length=300, unique=True)
     link = models.CharField(max_length=300, unique=True)
     sort_order = models.IntegerField(default=0)
+
 
     def __str__(self):
         return self.item
@@ -22,15 +25,6 @@ class Book(models.Model):
     picture = models.FileField(upload_to='bookEx/static/uploads')
     pic_path = models.CharField(max_length=300, editable=False, blank=True)
     username = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
-
-# New database table used to store our comments
-class Comment(models.Model):
-    # ForeignKey links this to our Book table. Each comment will belong to one book
-    # User is built into Django
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    username = models.ForeignKey(User, on_delete=models.CASCADE)
-    text = models.CharField(max_length=300)
-    created = models.DateTimeField(auto_now_add=True)
 
 class MessageThread(models.Model):
     """
@@ -130,6 +124,18 @@ class PrivateMessage(models.Model):
             self.is_read = True
             self.read_at = timezone.now()
             self.save(update_fields=["is_read", "read_at"])
+
+
+
+
+# New database table used to store our comments
+class Comment(models.Model):
+    # ForeignKey links this to our Book table. Each comment will belong to one book
+    # User is built into Django
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    username = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.CharField(max_length=300)
+    created = models.DateTimeField(auto_now_add=True)
 
 class Favorite(models.Model):
     user = models.ForeignKey(

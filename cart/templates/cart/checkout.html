@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Checkout – Book Exchange{% endblock %}
+
+{% block content %}
+<div class="checkout-page">
+  <h1 class="checkout-title">Checkout</h1>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="checkout-layout">
+    <!-- Order Review -->
+    <div class="order-review">
+      <h2 class="section-title">Order Review</h2>
+      {% for item in items %}
+      <div class="checkout-item">
+        {% if item.book.picture %}
+          <img src="{% static item.book.pic_path %}" alt="{{ item.book.name }}">
+        {% else %}
+          <div class="checkout-img checkout-img--placeholder">📚</div>
+        {% endif %}
+        <div class="checkout-item-info">
+          <p class="checkout-item-title">{{ item.book.name }}</p>
+          <p class="checkout-item-meta">Qty: {{ item.quantity }} × ${{ item.price }}</p>
+        </div>
+        <p class="checkout-item-sub">${{ item.subtotal }}</p>
+      </div>
+      {% endfor %}
+
+      <div class="order-total">
+        <span>Total</span>
+        <span>${{ total }}</span>
+      </div>
+    </div>
+
+    <!-- Checkout Form -->
+    <div class="checkout-form-panel">
+      <h2 class="section-title">Shipping & Payment</h2>
+      <form method="post">
+        {% csrf_token %}
+
+        <label class="field-label">Full Name</label>
+        <input type="text" name="full_name" class="field-input" placeholder="Jane Smith" required>
+
+        <label class="field-label">Email</label>
+        <input type="email" name="email" class="field-input" placeholder="jane@email.com" required>
+
+        <label class="field-label">Shipping Address</label>
+        <textarea name="address" class="field-input field-textarea" placeholder="123 Main St, Los Angeles, CA 90001" required></textarea>
+
+        <label class="field-label">Card Number</label>
+        <input type="text" name="card_number" class="field-input" placeholder="**** **** **** ****" maxlength="19" required>
+
+        <div class="card-row">
+          <div>
+            <label class="field-label">Expiry</label>
+            <input type="text" name="expiry" class="field-input" placeholder="MM/YY" maxlength="5" required>
+          </div>
+          <div>
+            <label class="field-label">CVV</label>
+            <input type="text" name="cvv" class="field-input" placeholder="123" maxlength="4" required>
+          </div>
+        </div>
+
+        <div class="order-summary-mini">
+          <span>Order Total:</span>
+          <span class="order-summary-total">${{ total }}</span>
+        </div>
+
+        <button type="submit" class="place-order-btn">Place Order →</button>
+        <a href="{% url 'cart:cart_detail' %}" class="back-link">← Back to Cart</a>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+.checkout-page { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
+.checkout-title { font-size: 1.8rem; font-weight: 700; color: #1e1b3a; margin-bottom: 1.5rem; }
+
+.alert { padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1rem; }
+.alert-success { background: #d4edda; color: #155724; }
+.alert-warning { background: #fff3cd; color: #856404; }
+
+.checkout-layout { display: grid; grid-template-columns: 1fr 420px; gap: 2rem; align-items: start; }
+
+/* Order review */
+.order-review { background: #fff; border: 1px solid #e8e8ef; border-radius: 16px; padding: 1.75rem; }
+.section-title { font-size: 1.1rem; font-weight: 700; color: #1e1b3a; margin: 0 0 1.25rem; }
+
+.checkout-item { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 0; border-bottom: 1px solid #f0f0f6; }
+.checkout-img { width: 60px; height: 75px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
+.checkout-img--placeholder { display: flex; align-items: center; justify-content: center; background: #f0f0f8; font-size: 1.5rem; }
+.checkout-item-info { flex: 1; }
+.checkout-item-title { font-weight: 600; color: #1e1b3a; margin: 0 0 0.2rem; font-size: 0.95rem; }
+.checkout-item-meta { color: #888; font-size: 0.85rem; margin: 0; }
+.checkout-item-sub { font-weight: 700; color: #1e1b3a; white-space: nowrap; }
+
+.order-total {
+  display: flex; justify-content: space-between;
+  font-size: 1.1rem; font-weight: 700; color: #1e1b3a;
+  padding-top: 1rem; margin-top: 0.5rem;
+  border-top: 2px solid #1e1b3a;
+}
+
+/* Checkout form */
+.checkout-form-panel { background: #1e1b3a; border-radius: 16px; padding: 1.75rem; color: #fff; }
+.checkout-form-panel .section-title { color: #fff; }
+
+.field-label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.35rem; color: rgba(255,255,255,0.8); }
+.field-input {
+  width: 100%; padding: 0.7rem 0.9rem; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08);
+  color: #fff; font-size: 0.95rem; margin-bottom: 1rem; box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+.field-input:focus { outline: none; border-color: rgba(255,255,255,0.6); }
+.field-input::placeholder { color: rgba(255,255,255,0.35); }
+.field-textarea { resize: vertical; min-height: 80px; }
+
+.card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+.order-summary-mini {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1rem 0; border-top: 1px solid rgba(255,255,255,0.15);
+  margin-bottom: 1rem; font-size: 1rem;
+}
+.order-summary-total { font-size: 1.3rem; font-weight: 700; }
+
+.place-order-btn {
+  width: 100%; padding: 1rem; background: #fff; color: #1e1b3a;
+  border: none; border-radius: 10px; font-weight: 700; font-size: 1rem;
+  cursor: pointer; transition: opacity 0.2s; margin-bottom: 0.75rem;
+}
+.place-order-btn:hover { opacity: 0.9; }
+.back-link { display: block; text-align: center; color: rgba(255,255,255,0.6); font-size: 0.85rem; text-decoration: none; }
+.back-link:hover { color: #fff; }
+
+@media (max-width: 768px) {
+  .checkout-layout { grid-template-columns: 1fr; }
+  .card-row { grid-template-columns: 1fr 1fr; }
+}
+</style>
+{% endblock %}

@@ -2,7 +2,6 @@
     --main-accent: #221a45;
 }
 
-
 * {
     margin: 0;
     padding: 0;
@@ -14,12 +13,6 @@ html {
     background-color: #221a45;
 }
 
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-
 body {
     font-family: Arial, sans-serif;
     min-height: 100vh;
@@ -29,34 +22,42 @@ body {
     background-color: white;
 }
 
-.backgroundPage {
-    background-image: url('images/background.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
 .banner {
     background-color: var(--main-accent);
     color: white;
     padding: 20px 32px;
 }
 
+.banner-icon {
+    width: 70px;
+    height: auto;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 6px;
+}
+
 .bannerInner {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 
 .bannerRight {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 14px;
     font-size: 14px;
+    margin-left: auto;
 }
 
 .bannerRight span {
     color: #ccc;
+}
+
+.bannerRight .bannerCartLink span {
+    color: var(--main-accent);
 }
 
 .bannerRight a {
@@ -70,6 +71,17 @@ body {
 
 .bannerRight a:hover {
     opacity: 0.85;
+}
+
+.bannerRight .bannerCartLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.bannerRight .bannerCartLink i {
+    font-size: 18px;
+    line-height: 1;
 }
 
 .bannerRight button {
@@ -93,6 +105,27 @@ body {
 .container {
     flex: 1;
     display: flex;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+.footer {
+    background-color: var(--main-accent);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.backgroundPage {
+    background-image: url('images/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .sidebar {
@@ -168,21 +201,6 @@ body {
 .sidebar a[href="/mybooks"]::before       { content: "\F447"; } /* columns-gap - My Books */
 .sidebar a[href="/inbox"]::before        { content: "\F32F"; } /* tray - Inbox */
 .sidebar a[href="/aboutus"]::before         { content: "\F4D0"; } /* people - About US */
-.sidebar a[href="/favorites"]::before { content: "\F417"; } /* heart */
-
-.content {
-    flex: 1;
-    padding: 20px;
-}
-
-.footer {
-    background-color: var(--main-accent);
-    color: white;
-    text-align: center;
-    padding: 10px;
-    width: 100%;
-    flex-shrink: 0;
-}
 
 .headingLink {
     color: inherit;
@@ -194,6 +212,14 @@ body {
     text-decoration: underline;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.sidebar a[href="/favorites"]::before { content: "\F417"; } /* heart */
+.sidebar a[href="/cart/"]::before { content: "\F242"; } /* cart */
 .delete-btn {
     text-decoration: none;
     color: #c0392b;
@@ -202,4 +228,26 @@ body {
 .delete-btn:hover {
     text-decoration: none;
     color: #e88080;
+}
+
+.bookCardCartWrap {
+    padding: 0 12px 12px;
+}
+
+.bookCardCartButton {
+    width: 100%;
+    padding: 8px;
+    background: #1e1b3a;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+
+.bookCardCartButton:hover {
+    opacity: 0.88;
 }

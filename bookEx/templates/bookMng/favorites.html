@@ -20,41 +20,11 @@
     {% if favorite_books %}
         <div class="booksGrid">
             {% for book in favorite_books %}
-            <a href="/book_detail/{{ book.id }}" class="bookCard">
-                <div class="bookCardImage">
-                    <img src="{% static book.pic_path %}" />
-                    <span class="cardHeartIcon"><i class="bi bi-heart-fill"></i></span>
-                </div>
-                <div class="bookCardInfo">
-                    <div class="bookCardTop">
-                        <p class="bookCardName">{{ book.name }}</p>
-                        <div class="bookCardPriceBlock">
-                            <span class="bookCardFrom">Price</span>
-                            <span class="bookCardPrice">${{ book.price }}</span>
-                        </div>
-                    </div>
-                    <p class="bookCardUsername">
-                        <i class="bi bi-person"></i> {{ book.username }}
-                    </p>
-                    <p class="bookCardDate">
-                        <i class="bi bi-calendar3"></i> {{ book.publishdate }}
-                    </p>
-                </div>
-            </a>
-            {% endfor %}
-        </div>
-
-    {% else %}
-        <div class="favEmptyState">
-            <i class="bi bi-heart"></i>
-            <p class="favEmptyTitle">You haven't favorited any books yet.</p>
-            <p class="favEmptySub">Here are some recently added books to get you started.</p>
-
-            <div class="favEmptyGrid">
-                {% for book in recent_books %}
-                <a href="/book_detail/{{ book.id }}" class="bookCard">
+            <div class="bookCard">
+                <a href="/book_detail/{{ book.id }}" style="text-decoration: none; color: inherit;">
                     <div class="bookCardImage">
                         <img src="{% static book.pic_path %}" />
+                        <span class="cardHeartIcon"><i class="bi bi-heart-fill"></i></span>
                     </div>
                     <div class="bookCardInfo">
                         <div class="bookCardTop">
@@ -72,6 +42,66 @@
                         </p>
                     </div>
                 </a>
+                <div class="bookCardCartWrap">
+                    {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'cart:cart_add' book.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="quantity" value="1">
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button type="submit" class="bookCardCartButton">
+                                <i class="bi bi-cart-plus"></i> Add to Cart
+                            </button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="bookCardCartButton">
+                            <i class="bi bi-lock"></i> Login to Buy
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <div class="favEmptyState">
+            <i class="bi bi-heart"></i>
+            <p class="favEmptyTitle">You haven't favorited any books yet.</p>
+            <p class="favEmptySub">Here are some recently added books to get you started.</p>
+
+            <div class="favEmptyGrid">
+                {% for book in recent_books %}
+                <div class="bookCard">
+                    <a href="/book_detail/{{ book.id }}" style="text-decoration: none; color: inherit;">
+                        <div class="bookCardImage">
+                            <img src="{% static book.pic_path %}" />
+                        </div>
+                        <div class="bookCardInfo">
+                            <div class="bookCardTop">
+                                <p class="bookCardName">{{ book.name }}</p>
+                                <div class="bookCardPriceBlock">
+                                    <span class="bookCardFrom">Price</span>
+                                    <span class="bookCardPrice">${{ book.price }}</span>
+                                </div>
+                            </div>
+                            <p class="bookCardUsername">
+                                <i class="bi bi-person"></i> {{ book.username }}
+                            </p>
+                            <p class="bookCardDate">
+                                <i class="bi bi-calendar3"></i> {{ book.publishdate }}
+                            </p>
+                        </div>
+                    </a>
+        <div class="bookCardCartWrap">
+            <form method="post" action="{% url 'cart:cart_add' book.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="quantity" value="1">
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <button type="submit" class="bookCardCartButton">
+                    <i class="bi bi-cart-plus"></i> Add to Cart
+                </button>
+            </form>
+        </div>
+                </div>
                 {% endfor %}
 
                 <a href="/displaybooks" class="homeActionCard favBrowseCard">

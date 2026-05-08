@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
 import os
 from pathlib import Path
 
@@ -21,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-x9@!46wtx*&klp2m&%t_5f)j2vpi69qb$+=yj&q#v80hfmyv)g"
+SECRET_KEY = "django-insecure-6^z=$&dui0zx19&u0=pcjc97u96bx+*2cunluw5=zhiej$w&t7"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -33,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "bookMng.apps.BookmngConfig",
+    "cart.apps.CartConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -56,14 +56,17 @@ ROOT_URLCONF = "bookEx.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, 'bookEx/templates')],
+        "DIRS": [os.path.join(BASE_DIR,'bookEx/templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.request",
+                "django.template.context_processors.debug",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+
                 "bookMng.context_processors.menu_links",
+                "cart.context_processors.cart_count",
             ],
         },
     },
@@ -126,3 +129,4 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/'

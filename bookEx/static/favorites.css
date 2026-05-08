@@ -189,3 +189,7 @@
     color: #444;
     margin-bottom: 8px;
 }
+
+.bookCardImage {
+    position: relative;
+}

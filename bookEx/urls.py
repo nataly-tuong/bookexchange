@@ -21,9 +21,8 @@ from django.urls import path
 from django.urls import include
 
 from django.views.generic.base import TemplateView
-
-from bookMng import views
 from bookMng.views import Register
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -32,10 +31,7 @@ urlpatterns = [
          name='register-success'),
     path('register', Register.as_view(), name='register'),
     path('', include('django.contrib.auth.urls')),
-    path('book_detail/<int:book_id>', views.book_detail, name='book_detail'),
-    path('book_delete/<int:book_id>', views.book_delete, name='book_delete'),
-    path('aboutus', views.aboutus, name='aboutus'),
-    path('postcomment/<int:book_id>', views.postcomment, name='postcomment'),
-    path('comment_delete/<int:comment_id>', views.comment_delete, name='comment_delete'),
-    path('book/<int:book_id>/comment/', views.postcomment, name='postcomment'),
+    path('cart/', include('cart.urls', namespace='cart')),
 ]
+
+
